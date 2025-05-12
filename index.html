@@ -1,0 +1,4042 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hey Bong! Manage Account Cookies</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #1e293b;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #1877f2, #e1306c);
+            color: white;
+            padding: 3rem 2rem;
+            text-align: center;
+            position: relative;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" patternUnits="userSpaceOnUse" width="100" height="100"><circle cx="25" cy="25" r="1" fill="white" opacity="0.1"/><circle cx="75" cy="75" r="1" fill="white" opacity="0.1"/><circle cx="75" cy="25" r="1" fill="white" opacity="0.1"/><circle cx="25" cy="75" r="1" fill="white" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+            animation: grain 2s linear infinite;
+        }
+        
+        @keyframes grain {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.8; }
+        }
+        
+        .header-logo {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.3));
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-10px) rotate(5deg); }
+            100% { transform: translateY(0px) rotate(0deg); }
+        }
+        
+        .header h1 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .header p {
+            opacity: 0.95;
+            max-width: 600px;
+            margin: 0 auto;
+            font-size: 1.1rem;
+            position: relative;
+            z-index: 2;
+        }
+        
+        /* Navigation Menu Styles */
+        .nav-menu {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid #e2e8f0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+        
+        .nav-tabs {
+            display: flex;
+            list-style: none;
+            gap: 0.5rem;
+            overflow-x: auto;
+            padding: 0.5rem 0;
+            scrollbar-width: none;
+        }
+        
+        .nav-tabs::-webkit-scrollbar {
+            display: none;
+        }
+        
+        .nav-tabs .tab {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.25rem;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            white-space: nowrap;
+            color: #64748b;
+            font-weight: 500;
+            background: transparent;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .nav-tabs .tab::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+        
+        .nav-tabs .tab:hover::before {
+            left: 100%;
+        }
+        
+        .nav-tabs .tab:hover {
+            background: #f1f5f9;
+            color: #334155;
+            transform: translateY(-2px);
+        }
+        
+        .nav-tabs .tab.active {
+            background: linear-gradient(135deg, #4338ca, #7c3aed);
+            color: white;
+            box-shadow: 0 4px 12px rgba(76, 29, 149, 0.3);
+            transform: translateY(-2px);
+        }
+        
+        .nav-tabs .tab span {
+            font-size: 1.25rem;
+        }
+        
+        /* Mobile menu toggle */
+        .mobile-menu-toggle {
+            display: none;
+            padding: 0.75rem;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1.5rem;
+        }
+        
+        @media (max-width: 768px) {
+            .mobile-menu-toggle {
+                display: block;
+            }
+            
+            .nav-tabs {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: rgba(255, 255, 255, 0.95);
+                backdrop-filter: blur(10px);
+                flex-direction: column;
+                padding: 0.5rem;
+                border-bottom: 1px solid #e2e8f0;
+            }
+            
+            .nav-tabs.show {
+                display: flex;
+            }
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+        
+        .grid {
+            display: grid;
+            gap: 2rem;
+            grid-template-columns: 1fr 1fr;
+        }
+        
+        @media (max-width: 768px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+            overflow: hidden;
+            height: fit-content;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+        
+        .card-header {
+            background: linear-gradient(135deg, #f8fafc, #f1f5f9);
+            border-bottom: 1px solid #e2e8f0;
+            padding: 1.5rem;
+            font-size: 1.2rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            color: #334155;
+        }
+        
+        .card-header span {
+            font-size: 1.5rem;
+        }
+        
+        .card-body {
+            padding: 2rem;
+        }
+        
+        .section {
+            display: none;
+        }
+        
+        .section.active {
+            display: block;
+        }
+        
+        .platform-selector {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .platform {
+            padding: 1rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 16px;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .platform::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, transparent 49%, rgba(255,255,255,0.1) 50%, transparent 51%);
+            transform: translateX(-100%);
+            transition: transform 0.6s;
+        }
+        
+        .platform:hover::before {
+            transform: translateX(100%);
+        }
+        
+        .platform.active {
+            border-color: #1877f2;
+            background: linear-gradient(135deg, #eff6ff, #dbeafe);
+            transform: scale(1.02);
+        }
+        
+        .platform-icon {
+            width: 56px;
+            height: 56px;
+            margin: 0 auto 0.75rem;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 28px;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        
+        .platform:hover .platform-icon {
+            transform: scale(1.1) rotate(5deg);
+        }
+        
+        /* Enhanced platform-specific styles */
+        .facebook-icon {
+            background: linear-gradient(135deg, #1877f2, #42a5f5);
+            box-shadow: 0 4px 20px rgba(24, 119, 242, 0.4);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .facebook-icon::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.3) 0%, transparent 50%);
+        }
+        
+        .instagram-icon {
+            background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+            box-shadow: 0 4px 20px rgba(225, 48, 108, 0.4);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .instagram-icon::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.3) 0%, transparent 50%);
+        }
+        
+        .gmail-icon {
+            background: linear-gradient(135deg, #DB4437, #EA4335);
+            box-shadow: 0 4px 20px rgba(219, 68, 55, 0.4);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .gmail-icon::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.3) 0%, transparent 50%);
+        }
+        
+        .yahoo-icon {
+            background: linear-gradient(135deg, #720e9e, #7B0099);
+            box-shadow: 0 4px 20px rgba(114, 14, 158, 0.4);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .yahoo-icon::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.3) 0%, transparent 50%);
+        }
+        
+        .meta-icon {
+            background: linear-gradient(135deg, #0668E1, #1877F2);
+            box-shadow: 0 4px 20px rgba(6, 104, 225, 0.4);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .meta-icon::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.3) 0%, transparent 50%);
+        }
+        
+        .platform h3 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #374151;
+        }
+        
+        .platform p {
+            font-size: 0.9rem;
+            color: #6b7280;
+        }
+        
+        .form-group {
+            margin-bottom: 1.25rem;
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 1.25rem;
+        }
+        
+        .input, .textarea, .select {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            font-family: inherit;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(5px);
+        }
+        
+        .input:focus, .textarea:focus, .select:focus {
+            outline: none;
+            border-color: #1877f2;
+            box-shadow: 0 0 0 4px rgba(24, 119, 242, 0.1);
+            background: white;
+        }
+        
+        .textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+        
+        .cookie-types {
+            display: grid;
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+        
+        .cookie-type {
+            border: 1px solid #e5e7eb;
+            border-radius: 16px;
+            padding: 1.25rem;
+            background: linear-gradient(135deg, #f9fafb, #f3f4f6);
+            transition: all 0.3s ease;
+        }
+        
+        .cookie-type:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+        
+        .cookie-type h4 {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #374151;
+        }
+        
+        .cookie-tags {
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+        }
+        
+        .cookie-name {
+            font-family: 'Courier New', monospace;
+            background: rgba(79, 70, 229, 0.1);
+            color: #4338ca;
+            padding: 0.5rem 0.75rem;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+        
+        .btn {
+            background: linear-gradient(135deg, #1877f2, #42a5f5);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+        
+        .btn:hover::before {
+            left: 100%;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(24, 119, 242, 0.3);
+        }
+        
+        .btn-full {
+            width: 100%;
+            margin-top: 1.5rem;
+        }
+        
+        .btn-danger {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+        }
+        
+        .btn-danger:hover {
+            box-shadow: 0 8px 20px rgba(239, 68, 68, 0.3);
+        }
+        
+        .btn-secondary {
+            background: linear-gradient(135deg, #6b7280, #4b5563);
+            color: white;
+        }
+        
+        .btn-secondary:hover {
+            box-shadow: 0 8px 20px rgba(107, 114, 128, 0.3);
+        }
+        
+        .btn-success {
+            background: linear-gradient(135deg, #10b981, #059669);
+        }
+        
+        .btn-success:hover {
+            box-shadow: 0 8px 20px rgba(16, 185, 129, 0.3);
+        }
+        
+        .notification {
+            padding: 1rem 1.25rem;
+            border-radius: 12px;
+            margin-bottom: 1.5rem;
+            display: none;
+            animation: slideIn 0.3s ease-out;
+        }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .notification.success {
+            background: linear-gradient(135deg, #ecfdf5, #d1fae5);
+            border: 1px solid #86efac;
+            color: #065f46;
+        }
+        
+        .permission-details {
+            background: linear-gradient(135deg, #f8fafc, #f1f5f9);
+            border: 1px solid #e2e8f0;
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin-top: 1.5rem;
+        }
+        
+        .link-container {
+            background: linear-gradient(135deg, #f1f5f9, #e2e8f0);
+            padding: 1rem;
+            border-radius: 12px;
+            word-break: break-all;
+            margin: 1rem 0;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            border: 1px solid #cbd5e1;
+        }
+        
+        .email-template {
+            margin-top: 2rem;
+        }
+        
+        .email-content {
+            background: linear-gradient(135deg, #f8fafc, #f1f5f9);
+            padding: 1.5rem;
+            border-radius: 16px;
+            margin-top: 1.5rem;
+            border: 1px solid #e2e8f0;
+        }
+        
+        .email-body {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-top: 1rem;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+        
+        .email-body ul {
+            margin: 1rem 0 1.5rem 2rem;
+        }
+        
+        .permission-page {
+            display: none;
+        }
+        
+        .critical-warning {
+            background: linear-gradient(135deg, #fef2f2, #fee2e2);
+            border: 1px solid #ef4444;
+            padding: 2rem;
+            border-radius: 16px;
+            margin-bottom: 2rem;
+        }
+        
+        .critical-warning h3 {
+            color: #dc2626;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+        
+        .critical-warning ul {
+            margin: 1rem 0 0 2rem;
+        }
+        
+        .countdown {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #ef4444;
+            text-align: center;
+            margin: 1.5rem 0;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .consent-checklist {
+            margin: 2rem 0;
+        }
+        
+        .consent-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            margin-bottom: 1.25rem;
+            padding: 1.25rem;
+            background: linear-gradient(135deg, #f8fafc, #f1f5f9);
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+        }
+        
+        .consent-item input[type="checkbox"] {
+            margin-top: 0.25rem;
+            width: 20px;
+            height: 20px;
+        }
+        
+        .security-info {
+            background: linear-gradient(135deg, #e0f2fe, #bae6fd);
+            border: 1px solid #0ea5e9;
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin-top: 2rem;
+        }
+        
+        .session-info {
+            background: linear-gradient(135deg, #f3f4f6, #e5e7eb);
+            border: 1px solid #d1d5db;
+            border-radius: 12px;
+            padding: 1.25rem;
+            margin-top: 1.25rem;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+        }
+        
+        .toast {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            color: #1e293b;
+            padding: 1.25rem 1.75rem;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            z-index: 1000;
+            transform: translateX(100%);
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .toast.show {
+            transform: translateX(0);
+        }
+        
+        /* Copy Text Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+        }
+
+        .modal-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2rem;
+            max-width: 700px;
+            width: 90%;
+            max-height: 80%;
+            overflow-y: auto;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-header h3 {
+            margin: 0;
+            color: #1e293b;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+        }
+
+        .modal-close {
+            background: linear-gradient(135deg, #f1f5f9, #e2e8f0);
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #64748b;
+            transition: all 0.3s ease;
+        }
+
+        .modal-close:hover {
+            background: linear-gradient(135deg, #e2e8f0, #cbd5e1);
+            transform: scale(1.1);
+        }
+
+        .modal-textarea {
+            width: 100%;
+            min-height: 250px;
+            padding: 1.25rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            resize: vertical;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            background: rgba(248, 250, 252, 0.8);
+            transition: all 0.3s ease;
+        }
+
+        .modal-textarea:focus {
+            outline: none;
+            border-color: #1877f2;
+            box-shadow: 0 0 0 4px rgba(24, 119, 242, 0.1);
+        }
+
+        .modal-buttons {
+            margin-top: 1.5rem;
+            text-align: center;
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+        }
+
+        .tabs-selector {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .account-tab {
+            display: none;
+        }
+
+        .account-tab.active {
+            display: block;
+        }
+
+        .platform-icon-large {
+            width: 96px;
+            height: 96px;
+            margin: 0 auto 2rem;
+            border-radius: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 48px;
+            font-weight: 700;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .platform-icon-large:hover {
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        .cookie-viewer {
+            background: linear-gradient(135deg, #f8fafc, #f1f5f9);
+            border: 1px solid #e2e8f0;
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            min-height: 200px;
+            overflow-x: auto;
+        }
+        
+        .cookie-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.75rem;
+            padding: 0.75rem;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+        
+        .login-links {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        
+        .login-link {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+            padding: 2rem;
+            border: 1px solid #e2e8f0;
+            border-radius: 16px;
+            text-decoration: none;
+            color: inherit;
+            transition: all 0.3s ease;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(5px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .login-link::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.5s;
+        }
+
+        .login-link:hover::before {
+            left: 100%;
+        }
+        
+        .login-link:hover {
+            background: rgba(248, 250, 252, 0.9);
+            border-color: #1877f2;
+            transform: translateY(-4px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        .login-link .platform-icon {
+            width: 64px;
+            height: 64px;
+            font-size: 32px;
+        }
+        
+        .login-link h4 {
+            margin-bottom: 0.5rem;
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #374151;
+        }
+        
+        .login-link p {
+            font-size: 0.95rem;
+            color: #6b7280;
+        }
+        
+        @media (max-width: 768px) {
+            .login-links {
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+                gap: 1rem;
+            }
+            
+            .login-link {
+                padding: 1.5rem;
+            }
+            
+            .login-link .platform-icon {
+                width: 56px;
+                height: 56px;
+                font-size: 28px;
+            }
+        }
+        
+        .breadcrumb {
+            margin-bottom: 1.5rem;
+            color: #64748b;
+            font-size: 0.95rem;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(5px);
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+        }
+        
+        .breadcrumb a {
+            color: #1877f2;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+
+        @keyframes floatUpDown {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        /* Language selector enhanced styling */
+        #languageToggle {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        #languageToggle::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            transition: left 0.5s;
+        }
+        
+        #languageToggle:hover::before {
+            left: 100%;
+        }
+        
+        /* Theme toggle enhanced styling */
+        #themeToggle {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        #themeToggle::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            transition: left 0.5s;
+        }
+        
+        #themeToggle:hover::before {
+            left: 100%;
+        }
+        
+        /* Mobile responsive adjustments */
+        @media (max-width: 768px) {
+            #languageToggle {
+                top: 1rem;
+                right: 1rem;
+                padding: 0.5rem 1rem;
+                font-size: 0.9rem;
+            }
+            
+            #themeToggle {
+                top: 1rem;
+                left: 1rem;
+                width: 40px;
+                height: 40px;
+                font-size: 1.2rem;
+            }
+            
+            #floatingLanguage {
+                bottom: 80px;
+                right: 20px;
+                width: 50px;
+                height: 50px;
+                font-size: 1.5rem;
+            }
+        }
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(24, 119, 242, 0.7);
+            }
+            70% {
+                box-shadow: 0 0 0 10px rgba(24, 119, 242, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(24, 119, 242, 0);
+            }
+        }
+
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+
+        /* Loading spinner */
+        .loading-spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #1877f2;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Main Application -->
+    <div id="mainApp">
+        <div class="header">
+            <div class="header-logo">
+            <svg width="360" height="240" viewBox="0 0 120 80" xmlns="http://www.w3.org/2000/svg">
+                <!-- Mango icon -->
+                <defs>
+                    <linearGradient id="mangoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" style="stop-color:#FF8C00"/>
+                        <stop offset="50%" style="stop-color:#FFA500"/>
+                        <stop offset="100%" style="stop-color:#FFD700"/>
+                    </linearGradient>
+                    <linearGradient id="leafGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" style="stop-color:#90EE90"/>
+                        <stop offset="100%" style="stop-color:#00FF00"/>
+                    </linearGradient>
+                </defs>
+                <!-- Mango body -->
+                <path d="M40 20 Q55 10 65 25 Q70 35 65 45 Q55 55 40 50 Q30 45 35 35 Q30 25 40 20 Z" 
+                      fill="url(#mangoGradient)" transform="translate(15,5)"/>
+                <!-- Mango leaf -->
+                <path d="M55 20 Q65 15 70 25 Q65 30 55 25 Z" 
+                      fill="url(#leafGradient)" transform="translate(15,5)"/>
+                <!-- META text -->
+                <text x="15" y="65" font-family="'Poppins', sans-serif" font-size="14" font-weight="700" fill="white">META</text>
+                <!-- MANGO text -->
+                <text x="15" y="78" font-family="'Poppins', sans-serif" font-size="10" font-weight="700" fill="#FFA500">MANGO</text>
+            </svg>
+        </div>
+            <h1 data-translate="header_title">Hey Bong! Quản Lý Cookie Tài Khoản</h1>
+            <p data-translate="header_subtitle">Quản lý truy cập cookie Facebook, Instagram, Gmail, Yahoo, Meta!!</p>
+        </div>
+        
+        <!-- Navigation Menu -->
+        <nav class="nav-menu">
+            <div class="nav-container">
+                <button class="mobile-menu-toggle" onclick="toggleMobileMenu()">☰</button>
+                <ul class="nav-tabs" id="navTabs">
+                    <li class="tab active" onclick="switchTab('create')">
+                        <span>🔗</span> <span data-translate="nav_create">Tạo liên kết</span>
+                    </li>
+                    <li class="tab" onclick="switchTab('manage')">
+                        <span>🍪</span> <span data-translate="nav_manage">Quản lý cookie</span>
+                    </li>
+                    <li class="tab" onclick="switchTab('login')">
+                        <span>🚀</span> <span data-translate="nav_login">Đăng nhập</span>
+                    </li>
+                    <li class="tab" onclick="switchTab('templates')">
+                        <span>📧</span> <span data-translate="nav_templates">Mẫu email</span>
+                    </li>
+                    <li class="tab" onclick="switchTab('history')">
+                        <span>📝</span> <span data-translate="nav_history">Lịch sử</span>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        
+        <div class="container">
+            <!-- Create Link Tab -->
+            <section id="createTab" class="section active">
+                <div class="card">
+                    <div class="card-header">
+                        <span>🌟</span> Chọn nền tảng
+                    </div>
+                    <div class="card-body">
+                        <div class="tabs-selector">
+                            <button class="btn active" id="facebookLinkTabBtn" onclick="switchAccountTab('facebook')">Facebook</button>
+                            <button class="btn btn-secondary" id="instagramLinkTabBtn" onclick="switchAccountTab('instagram')">Instagram</button>
+                            <button class="btn btn-secondary" id="gmailLinkTabBtn" onclick="switchAccountTab('gmail')">Gmail</button>
+                            <button class="btn btn-secondary" id="yahooLinkTabBtn" onclick="switchAccountTab('yahoo')">Yahoo</button>
+                            <button class="btn btn-secondary" id="metaLinkTabBtn" onclick="switchAccountTab('meta')">Meta</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Facebook Link Creation -->
+                <div id="facebookLinkTab" class="account-tab active">
+                    <div class="grid">
+                        <!-- Left Column - Create Permission -->
+                        <div class="card">
+                            <div class="card-header">
+                                <span>📘</span> Create Facebook Access Link
+                            </div>
+                            <div class="card-body">
+                                <div class="notification success" id="facebookSuccessNotification">
+                                    Permission link generated successfully!
+                                </div>
+                                
+                                <div class="platform-icon-large facebook-icon">f</div>
+                                
+                                <div class="form-row">
+                                    <input type="text" class="input" id="facebookTicketId" placeholder="Support Ticket ID" required>
+                                    <input type="text" class="input" id="facebookSupportAgent" placeholder="Support Agent Name" required>
+                                </div>
+                                
+                                <div class="form-row">
+                                    <select class="select" id="facebookUrgency">
+                                        <option value="low">Low Priority</option>
+                                        <option value="medium">Medium Priority</option>
+                                        <option value="high">High Priority</option>
+                                        <option value="critical">Critical Security Issue</option>
+                                    </select>
+                                    <select class="select" id="facebookAccessDuration">
+                                        <option value="60">1 hour</option>
+                                        <option value="360">6 hours</option>
+                                        <option value="720">12 hours</option>
+                                        <option value="1440">24 hours</option>
+                                        <option value="4320">72 hours (Max)</option>
+                                    </select>
+                                </div>
+                                
+                                <textarea class="textarea" placeholder="Detailed reason for access request..." id="facebookAccessReason"></textarea>
+                                
+                                <button class="btn btn-full" onclick="generateFacebookPermissionLink()">
+                                    <span id="facebookBtnText">Generate Permission Link</span>
+                                </button>
+                                
+                                <div id="generatedFacebookLinkSection" style="display: none;">
+                                    <div class="permission-details">
+                                        <h4>Permission Link</h4>
+                                        <div class="link-container" id="facebookPermissionLink"></div>
+                                        <button class="btn btn-secondary" onclick="copyFacebookPermissionLink()">📋 Copy Link</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Right Column - Cookie Types -->
+                        <div class="card">
+                            <div class="card-header">
+                                <span>🔧</span> Facebook Cookie Information
+                            </div>
+                            <div class="card-body">
+                                <div class="cookie-types">
+                                    <div class="cookie-type">
+                                        <h4>🔐 Authentication Cookies</h4>
+                                        <div class="cookie-tags">
+                                            <span class="cookie-name">c_user</span>
+                                            <span class="cookie-name">xs</span>
+                                            <span class="cookie-name">fr</span>
+                                            <span class="cookie-name">sb</span>
+                                        </div>
+                                    </div>
+                                    <div class="cookie-type">
+                                        <h4>📊 Session Cookies</h4>
+                                        <div class="cookie-tags">
+                                            <span class="cookie-name">datr</span>
+                                            <span class="cookie-name">ps_l</span>
+                                            <span class="cookie-name">ps_n</span>
+                                        </div>
+                                    </div>
+                                    <div class="cookie-type">
+                                        <h4>📱 Mobile Specific</h4>
+                                        <div class="cookie-tags">
+                                            <span class="cookie-name">m_pixel_ratio</span>
+                                            <span class="cookie-name">wd</span>
+                                            <span class="cookie-name">locale</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Instagram Link Creation -->
+                <div id="instagramLinkTab" class="account-tab">
+                    <div class="grid">
+                        <!-- Left Column - Create Permission -->
+                        <div class="card">
+                            <div class="card-header">
+                                <span>📷</span> Create Instagram Access Link
+                            </div>
+                            <div class="card-body">
+                                <div class="notification success" id="instagramSuccessNotification">
+                                    Permission link generated successfully!
+                                </div>
+                                
+                                <div class="platform-icon-large instagram-icon">📷</div>
+                                
+                                <div class="form-row">
+                                    <input type="text" class="input" id="instagramTicketId" placeholder="Support Ticket ID" required>
+                                    <input type="text" class="input" id="instagramSupportAgent" placeholder="Support Agent Name" required>
+                                </div>
+                                
+                                <div class="form-row">
+                                    <select class="select" id="instagramUrgency">
+                                        <option value="low">Low Priority</option>
+                                        <option value="medium">Medium Priority</option>
+                                        <option value="high">High Priority</option>
+                                        <option value="critical">Critical Security Issue</option>
+                                    </select>
+                                    <select class="select" id="instagramAccessDuration">
+                                        <option value="60">1 hour</option>
+                                        <option value="360">6 hours</option>
+                                        <option value="720">12 hours</option>
+                                        <option value="1440">24 hours</option>
+                                        <option value="4320">72 hours (Max)</option>
+                                    </select>
+                                </div>
+                                
+                                <textarea class="textarea" placeholder="Detailed reason for access request..." id="instagramAccessReason"></textarea>
+                                
+                                <button class="btn btn-full" style="background: linear-gradient(135deg, #bc1888, #dc2743);" onclick="generateInstagramPermissionLink()">
+                                    <span id="instagramBtnText">Generate Permission Link</span>
+                                </button>
+                                
+                                <div id="generatedInstagramLinkSection" style="display: none;">
+                                    <div class="permission-details">
+                                        <h4>Permission Link</h4>
+                                        <div class="link-container" id="instagramPermissionLink"></div>
+                                        <button class="btn btn-secondary" onclick="copyInstagramPermissionLink()">📋 Copy Link</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Right Column - Cookie Types -->
+                        <div class="card">
+                            <div class="card-header">
+                                <span>🔧</span> Instagram Cookie Information
+                            </div>
+                            <div class="card-body">
+                                <div class="cookie-types">
+                                    <div class="cookie-type">
+                                        <h4>🔐 Authentication Cookies</h4>
+                                        <div class="cookie-tags">
+                                            <span class="cookie-name">sessionid</span>
+                                            <span class="cookie-name">csrftoken</span>
+                                            <span class="cookie-name">rur</span>
+                                        </div>
+                                    </div>
+                                    <div class="cookie-type">
+                                        <h4>📊 Session & Device</h4>
+                                        <div class="cookie-tags">
+                                            <span class="cookie-name">mid</span>
+                                            <span class="cookie-name">ig_did</span>
+                                            <span class="cookie-name">shbid</span>
+                                        </div>
+                                    </div>
+                                    <div class="cookie-type">
+                                        <h4>📱 Additional Cookies</h4>
+                                        <div class="cookie-tags">
+                                            <span class="cookie-name">ds_user_id</span>
+                                            <span class="cookie-name">urlgen</span>
+                                            <span class="cookie-name">ig_cb</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Gmail Link Creation -->
+                <div id="gmailLinkTab" class="account-tab">
+                    <div class="grid">
+                        <!-- Left Column - Create Permission -->
+                        <div class="card">
+                            <div class="card-header">
+                                <span>📧</span> Create Gmail Access Link
+                            </div>
+                            <div class="card-body">
+                                <div class="notification success" id="gmailSuccessNotification">
+                                    Authentication link generated successfully!
+                                </div>
+                                
+                                <div class="platform-icon-large gmail-icon">G</div>
+                                
+                                <div class="form-row">
+                                    <input type="text" class="input" id="gmailTicketId" placeholder="Support Ticket ID" required>
+                                    <input type="text" class="input" id="gmailSupportAgent" placeholder="Support Agent Name" required>
+                                </div>
+                                
+                                <div class="form-row">
+                                    <select class="select" id="gmailAccessScope">
+                                        <option value="read_only">Chỉ đọc email</option>
+                                        <option value="read_send">Đọc và gửi email</option>
+                                        <option value="read_send_manage">Đọc, gửi và quản lý email</option>
+                                        <option value="full_access">Truy cập toàn bộ</option>
+                                    </select>
+                                    <select class="select" id="gmailAccessDuration">
+                                        <option value="60">1 giờ</option>
+                                        <option value="360">6 giờ</option>
+                                        <option value="720">12 giờ</option>
+                                        <option value="1440">24 giờ</option>
+                                        <option value="4320">72 giờ (Tối đa)</option>
+                                    </select>
+                                </div>
+                                
+                                <textarea class="textarea" placeholder="Lý do cần truy cập..." id="gmailAccessReason"></textarea>
+                                
+                                <button class="btn btn-full" style="background: linear-gradient(135deg, #DB4437, #EA4335);" onclick="generateGmailAuthLink()">
+                                    <span id="gmailBtnText">Tạo liên kết xác thực</span>
+                                </button>
+                                
+                                <div id="generatedGmailLinkSection" style="display: none;">
+                                    <div class="permission-details">
+                                        <h4>Liên kết xác thực</h4>
+                                        <div class="link-container" id="gmailAuthLink"></div>
+                                        <button class="btn btn-secondary" onclick="copyGmailAuthLink()">📋 Copy Link</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Right Column - OAuth Information -->
+                        <div class="card">
+                            <div class="card-header">
+                                <span>ℹ️</span> Gmail OAuth Information
+                            </div>
+                            <div class="card-body">
+                                <div class="cookie-types">
+                                    <div class="cookie-type">
+                                        <h4>🔐 Google OAuth Scopes</h4>
+                                        <div class="cookie-tags">
+                                            <span class="cookie-name">gmail.readonly</span>
+                                            <span class="cookie-name">gmail.send</span>
+                                            <span class="cookie-name">gmail.labels</span>
+                                            <span class="cookie-name">gmail.compose</span>
+                                        </div>
+                                    </div>
+                                    <div class="cookie-type">
+                                        <h4>📂 Additional Scopes</h4>
+                                        <div class="cookie-tags">
+                                            <span class="cookie-name">userinfo.email</span>
+                                            <span class="cookie-name">userinfo.profile</span>
+                                            <span class="cookie-name">drive.readonly</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <p style="margin-top: 1rem;">Google sử dụng giao thức OAuth 2.0 để cấp quyền truy cập, cho phép ứng dụng truy cập tạm thời vào dữ liệu người dùng mà không cần biết mật khẩu.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Yahoo Link Creation -->
+                <div id="yahooLinkTab" class="account-tab">
+                    <div class="grid">
+                        <!-- Left Column - Create Permission -->
+                        <div class="card">
+                            <div class="card-header">
+                                <span>📨</span> Create Yahoo Access Link
+                            </div>
+                            <div class="card-body">
+                                <div class="notification success" id="yahooSuccessNotification">
+                                    Authentication link generated successfully!
+                                </div>
+                                
+                                <div class="platform-icon-large yahoo-icon">Y!</div>
+                                
+                                <div class="form-row">
+                                    <input type="text" class="input" id="yahooTicketId" placeholder="Support Ticket ID" required>
+                                    <input type="text" class="input" id="yahooSupportAgent" placeholder="Support Agent Name" required>
+                                </div>
+                                
+                                <div class="form-row">
+                                    <select class="select" id="yahooAccessScope">
+                                        <option value="read_only">Chỉ đọc email</option>
+                                        <option value="read_send">Đọc và gửi email</option>
+                                        <option value="read_send_manage">Đọc, gửi và quản lý email</option>
+                                        <option value="full_access">Truy cập toàn bộ</option>
+                                    </select>
+                                    <select class="select" id="yahooAccessDuration">
+                                        <option value="60">1 giờ</option>
+                                        <option value="360">6 giờ</option>
+                                        <option value="720">12 giờ</option>
+                                        <option value="1440">24 giờ</option>
+                                        <option value="4320">72 giờ (Tối đa)</option>
+                                    </select>
+                                </div>
+                                
+                                <textarea class="textarea" placeholder="Lý do cần truy cập..." id="yahooAccessReason"></textarea>
+                                
+                                <button class="btn btn-full" style="background: linear-gradient(135deg, #720e9e, #7B0099);" onclick="generateYahooAuthLink()">
+                                    <span id="yahooBtnText">Tạo liên kết xác thực</span>
+                                </button>
+                                
+                                <div id="generatedYahooLinkSection" style="display: none;">
+                                    <div class="permission-details">
+                                        <h4>Liên kết xác thực</h4>
+                                        <div class="link-container" id="yahooAuthLink"></div>
+                                        <button class="btn btn-secondary" onclick="copyYahooAuthLink()">📋 Copy Link</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Right Column - OAuth Information -->
+                        <div class="card">
+                            <div class="card-header">
+                                <span>ℹ️</span> Yahoo OAuth Information
+                            </div>
+                            <div class="card-body">
+                                <div class="cookie-types">
+                                    <div class="cookie-type">
+                                        <h4>🔐 Yahoo OAuth Permissions</h4>
+                                        <div class="cookie-tags">
+                                            <span class="cookie-name">mail-r</span>
+                                            <span class="cookie-name">mail-w</span>
+                                            <span class="cookie-name">mail-administer</span>
+                                        </div>
+                                    </div>
+                                    <div class="cookie-type">
+                                        <h4>👤 User Data</h4>
+                                        <div class="cookie-tags">
+                                            <span class="cookie-name">profile</span>
+                                            <span class="cookie-name">contacts-r</span>
+                                            <span class="cookie-name">mbox-r</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <p style="margin-top: 1rem;">Yahoo Mail sử dụng xác thực OAuth để cấp quyền truy cập an toàn. Người dùng có thể thu hồi quyền này bất cứ lúc nào qua trang cài đặt tài khoản.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Meta Link Creation -->
+                <div id="metaLinkTab" class="account-tab">
+                    <div class="grid">
+                        <!-- Left Column - Create Permission -->
+                        <div class="card">
+                            <div class="card-header">
+                                <span>∞</span> Create Meta Access Link
+                            </div>
+                            <div class="card-body">
+                                <div class="notification success" id="metaSuccessNotification">
+                                    Permission link generated successfully!
+                                </div>
+                                
+                                <div class="platform-icon-large meta-icon">∞</div>
+                                
+                                <div class="form-row">
+                                    <input type="text" class="input" id="metaTicketId" placeholder="Support Ticket ID" required>
+                                    <input type="text" class="input" id="metaSupportAgent" placeholder="Support Agent Name" required>
+                                </div>
+                                
+                                <div class="form-row">
+                                    <select class="select" id="metaUrgency">
+                                        <option value="low">Low Priority</option>
+                                        <option value="medium">Medium Priority</option>
+                                        <option value="high">High Priority</option>
+                                        <option value="critical">Critical Security Issue</option>
+                                    </select>
+                                    <select class="select" id="metaAccessDuration">
+                                        <option value="60">1 hour</option>
+                                        <option value="360">6 hours</option>
+                                        <option value="720">12 hours</option>
+                                        <option value="1440">24 hours</option>
+                                        <option value="4320">72 hours (Max)</option>
+                                    </select>
+                                </div>
+                                
+                                <textarea class="textarea" placeholder="Detailed reason for access request..." id="metaAccessReason"></textarea>
+                                
+                                <button class="btn btn-full" style="background: linear-gradient(135deg, #0668E1, #1877F2);" onclick="generateMetaPermissionLink()">
+                                    <span id="metaBtnText">Generate Permission Link</span>
+                                </button>
+                                
+                                <div id="generatedMetaLinkSection" style="display: none;">
+                                    <div class="permission-details">
+                                        <h4>Permission Link</h4>
+                                        <div class="link-container" id="metaPermissionLink"></div>
+                                        <button class="btn btn-secondary" onclick="copyMetaPermissionLink()">📋 Copy Link</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Right Column - Cookie Types -->
+                        <div class="card">
+                            <div class="card-header">
+                                <span>🔧</span> Meta Platform Information
+                            </div>
+                            <div class="card-body">
+                                <div class="cookie-types">
+                                    <div class="cookie-type">
+                                        <h4>🔐 Meta Authentication</h4>
+                                        <div class="cookie-tags">
+                                            <span class="cookie-name">meta_auth</span>
+                                            <span class="cookie-name">meta_session</span>
+                                            <span class="cookie-name">cross_platform</span>
+                                        </div>
+                                    </div>
+                                    <div class="cookie-type">
+                                        <h4>🌐 Cross-Platform Data</h4>
+                                        <div class="cookie-tags">
+                                            <span class="cookie-name">metaverse_id</span>
+                                            <span class="cookie-name">reality_labs</span>
+                                            <span class="cookie-name">horizon_data</span>
+                                        </div>
+                                    </div>
+                                    <div class="cookie-type">
+                                        <h4>🎮 VR/AR Specific</h4>
+                                        <div class="cookie-tags">
+                                            <span class="cookie-name">oculus_session</span>
+                                            <span class="cookie-name">vr_prefs</span>
+                                            <span class="cookie-name">spatial_data</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Manage Cookies Section -->
+            <section id="manageTab" class="section">
+                <div class="breadcrumb">
+                    <a href="#" onclick="switchTab('create')">🏠 Dashboard</a> > <strong>Quản lý cookie</strong>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header">
+                        <span>🔄</span> Chọn ứng dụng
+                    </div>
+                    <div class="card-body">
+                        <div class="tabs-selector">
+                            <button class="btn active" id="facebookCookieTabBtn" onclick="switchCookieAccountTab('facebook')">Facebook</button>
+                            <button class="btn btn-secondary" id="instagramCookieTabBtn" onclick="switchCookieAccountTab('instagram')">Instagram</button>
+                            <button class="btn btn-secondary" id="gmailCookieTabBtn" onclick="switchCookieAccountTab('gmail')">Gmail</button>
+                            <button class="btn btn-secondary" id="yahooCookieTabBtn" onclick="switchCookieAccountTab('yahoo')">Yahoo</button>
+                            <button class="btn btn-secondary" id="metaCookieTabBtn" onclick="switchCookieAccountTab('meta')">Meta</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Facebook Cookie Management -->
+                <div id="facebookCookieTab" class="account-tab active">
+                    <div class="card">
+                        <div class="card-header">
+                            <span>🍪</span> Quản lý Cookie Facebook
+                        </div>
+                        <div class="card-body">
+                            <div class="platform-icon-large facebook-icon">f</div>
+                            
+                            <div id="facebookCookieList" class="cookie-viewer">
+                                <p style="text-align: center; color: #64748b; padding: 2rem;">Click to load Facebook cookies</p>
+                            </div>
+                            
+                            <button class="btn btn-full" onclick="loadFacebookCookies()">
+                                <span id="loadFbCookiesText">🔄 Tải cookies Facebook</span>
+                            </button>
+                            <button class="btn btn-secondary btn-full" onclick="saveFacebookCookies()">💾 Lưu cookies vào trình duyệt</button>
+                            <button class="btn btn-danger btn-full" onclick="clearFacebookCookies()">🗑️ Xóa cookies Facebook</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Instagram Cookie Management -->
+                <div id="instagramCookieTab" class="account-tab">
+                    <div class="card">
+                        <div class="card-header">
+                            <span>🍪</span> Quản lý Cookie Instagram
+                        </div>
+                        <div class="card-body">
+                            <div class="platform-icon-large instagram-icon">📷</div>
+                            
+                            <div id="instagramCookieList" class="cookie-viewer">
+                                <p style="text-align: center; color: #64748b; padding: 2rem;">Click to load Instagram cookies</p>
+                            </div>
+                            
+                            <button class="btn btn-full" style="background: linear-gradient(135deg, #bc1888, #dc2743);" onclick="loadInstagramCookies()">
+                                <span id="loadIgCookiesText">🔄 Tải cookies Instagram</span>
+                            </button>
+                            <button class="btn btn-secondary btn-full" onclick="saveInstagramCookies()">💾 Lưu cookies vào trình duyệt</button>
+                            <button class="btn btn-danger btn-full" onclick="clearInstagramCookies()">🗑️ Xóa cookies Instagram</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Gmail Token Management -->
+                <div id="gmailCookieTab" class="account-tab">
+                    <div class="card">
+                        <div class="card-header">
+                            <span>🔑</span> Quản lý Token Gmail
+                        </div>
+                        <div class="card-body">
+                            <div class="platform-icon-large gmail-icon">G</div>
+                            
+                            <div id="gmailTokenList" class="cookie-viewer">
+                                <p style="text-align: center; color: #64748b; padding: 2rem;">Click to load Gmail OAuth tokens</p>
+                            </div>
+                            
+                            <button class="btn btn-full" style="background: linear-gradient(135deg, #DB4437, #EA4335);" onclick="loadGmailTokens()">
+                                <span id="loadGmailTokensText">🔄 Tải OAuth tokens</span>
+                            </button>
+                            <button class="btn btn-secondary btn-full" onclick="refreshGmailTokens()">🔄 Refresh tokens</button>
+                            <button class="btn btn-danger btn-full" onclick="revokeGmailTokens()">❌ Thu hồi quyền truy cập</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Yahoo Token Management -->
+                <div id="yahooCookieTab" class="account-tab">
+                    <div class="card">
+                        <div class="card-header">
+                            <span>🔑</span> Quản lý Token Yahoo
+                        </div>
+                        <div class="card-body">
+                            <div class="platform-icon-large yahoo-icon">Y!</div>
+                            
+                            <div id="yahooTokenList" class="cookie-viewer">
+                                <p style="text-align: center; color: #64748b; padding: 2rem;">Click to load Yahoo OAuth tokens</p>
+                            </div>
+                            
+                            <button class="btn btn-full" style="background: linear-gradient(135deg, #720e9e, #7B0099);" onclick="loadYahooTokens()">
+                                <span id="loadYahooTokensText">🔄 Tải OAuth tokens</span>
+                            </button>
+                            <button class="btn btn-secondary btn-full" onclick="refreshYahooTokens()">🔄 Refresh tokens</button>
+                            <button class="btn btn-danger btn-full" onclick="revokeYahooTokens()">❌ Thu hồi quyền truy cập</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Meta Token Management -->
+                <div id="metaCookieTab" class="account-tab">
+                    <div class="card">
+                        <div class="card-header">
+                            <span>🔑</span> Quản lý Token Meta
+                        </div>
+                        <div class="card-body">
+                            <div class="platform-icon-large meta-icon">∞</div>
+                            
+                            <div id="metaTokenList" class="cookie-viewer">
+                                <p style="text-align: center; color: #64748b; padding: 2rem;">Click to load Meta access tokens</p>
+                            </div>
+                            
+                            <button class="btn btn-full" style="background: linear-gradient(135deg, #0668E1, #1877F2);" onclick="loadMetaTokens()">
+                                <span id="loadMetaTokensText">🔄 Tải access tokens</span>
+                            </button>
+                            <button class="btn btn-secondary btn-full" onclick="refreshMetaTokens()">🔄 Refresh tokens</button>
+                            <button class="btn btn-danger btn-full" onclick="revokeMetaTokens()">❌ Thu hồi quyền truy cập</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Quick Login Section -->
+            <section id="loginTab" class="section">
+                <div class="breadcrumb">
+                    <a href="#" onclick="switchTab('create')">🏠 Dashboard</a> > <strong>Đăng nhập nhanh</strong>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header">
+                        <span>🔄</span> Chọn ứng dụng
+                    </div>
+                    <div class="card-body">
+                        <div class="tabs-selector">
+                            <button class="btn active" id="facebookLoginTabBtn" onclick="switchLoginAccountTab('facebook')">Facebook</button>
+                            <button class="btn btn-secondary" id="instagramLoginTabBtn" onclick="switchLoginAccountTab('instagram')">Instagram</button>
+                            <button class="btn btn-secondary" id="gmailLoginTabBtn" onclick="switchLoginAccountTab('gmail')">Gmail</button>
+                            <button class="btn btn-secondary" id="yahooLoginTabBtn" onclick="switchLoginAccountTab('yahoo')">Yahoo</button>
+                            <button class="btn btn-secondary" id="metaLoginTabBtn" onclick="switchLoginAccountTab('meta')">Meta</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Facebook Login -->
+                <div id="facebookLoginTab" class="account-tab active">
+                    <div class="card">
+                        <div class="card-header">
+                            <span>🚀</span> Truy cập nhanh Facebook
+                        </div>
+                        <div class="card-body">
+                            <div class="platform-icon-large facebook-icon">f</div>
+                            
+                            <div class="login-links">
+                                <a href="javascript:loginWithCookies('https://facebook.com')" class="login-link">
+                                    <div class="platform-icon facebook-icon">f</div>
+                                    <h4>Facebook Desktop</h4>
+                                    <p>Truy cập Facebook với cookies hiện tại</p>
+                                </a>
+                                
+                                <a href="javascript:loginWithCookies('https://m.facebook.com')" class="login-link">
+                                    <div class="platform-icon facebook-icon">📱</div>
+                                    <h4>Facebook Mobile</h4>
+                                    <p>Truy cập phiên bản mobile</p>
+                                </a>
+                                
+                                <a href="javascript:loginWithCookies('https://business.facebook.com')" class="login-link">
+                                    <div class="platform-icon facebook-icon">💼</div>
+                                    <h4>Facebook Business</h4>
+                                    <p>Quản lý doanh nghiệp</p>
+                                </a>
+                                
+                                <a href="javascript:loginWithCookies('https://www.facebook.com/marketplace')" class="login-link">
+                                    <div class="platform-icon facebook-icon">🛒</div>
+                                    <h4>Facebook Marketplace</h4>
+                                    <p>Mua bán trên Marketplace</p>
+                                </a>
+                                
+                                <a href="javascript:loginWithCookies('https://www.facebook.com/pages')" class="login-link">
+                                    <div class="platform-icon facebook-icon">📄</div>
+                                    <h4>Facebook Pages</h4>
+                                    <p>Quản lý trang Facebook</p>
+                                </a>
+                                
+                                <a href="javascript:loginWithCookies('https://www.facebook.com/groups')" class="login-link">
+                                    <div class="platform-icon facebook-icon">👥</div>
+                                    <h4>Facebook Groups</h4>
+                                    <p>Quản lý nhóm Facebook</p>
+                                </a>
+                            </div>
+                            
+                            <div style="margin-top: 2rem; text-align: center;">
+                                <button class="btn btn-success" onclick="injectFacebookCookies()">🚀 Inject Facebook Cookies</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Instagram Login -->
+                <div id="instagramLoginTab" class="account-tab">
+                    <div class="card">
+                        <div class="card-header">
+                            <span>🚀</span> Truy cập nhanh Instagram
+                        </div>
+                        <div class="card-body">
+                            <div class="platform-icon-large instagram-icon">📷</div>
+                            
+                            <div class="login-links">
+                                <a href="javascript:loginWithCookies('https://instagram.com')" class="login-link">
+                                    <div class="platform-icon instagram-icon">📷</div>
+                                    <h4>Instagram Web</h4>
+                                    <p>Truy cập Instagram với cookies</p>
+                                </a>
+                                
+                                <a href="javascript:loginWithCookies('https://business.instagram.com')" class="login-link">
+                                    <div class="platform-icon instagram-icon">💼</div>
+                                    <h4>Instagram Business</h4>
+                                    <p>Quản lý doanh nghiệp Instagram</p>
+                                </a>
+                                
+                                <a href="javascript:loginWithCookies('https://creators.instagram.com')" class="login-link">
+                                    <div class="platform-icon instagram-icon">✨</div>
+                                    <h4>Instagram Creators</h4>
+                                    <p>Công cụ cho content creator</p>
+                                </a>
+                                
+                                <a href="javascript:loginWithCookies('https://www.instagram.com/accounts/activity')" class="login-link">
+                                    <div class="platform-icon instagram-icon">📊</div>
+                                    <h4>Instagram Insights</h4>
+                                    <p>Thống kê và phân tích</p>
+                                </a>
+                                
+                                <a href="javascript:loginWithCookies('https://www.instagram.com/direct/inbox')" class="login-link">
+                                    <div class="platform-icon instagram-icon">💬</div>
+                                    <h4>Instagram Direct</h4>
+                                    <p>Tin nhắn riêng tư</p>
+                                </a>
+                                
+                                <a href="javascript:loginWithCookies('https://www.instagram.com/accounts/edit')" class="login-link">
+                                    <div class="platform-icon instagram-icon">⚙️</div>
+                                    <h4>Instagram Settings</h4>
+                                    <p>Cài đặt tài khoản</p>
+                                </a>
+                            </div>
+                            
+                            <div style="margin-top: 2rem; text-align: center;">
+                                <button class="btn" style="background: linear-gradient(135deg, #bc1888, #dc2743);" onclick="injectInstagramCookies()">🚀 Inject Instagram Cookies</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Gmail Login -->
+                <div id="gmailLoginTab" class="account-tab">
+                    <div class="card">
+                        <div class="card-header">
+                            <span>🚀</span> Truy cập nhanh Gmail
+                        </div>
+                        <div class="card-body">
+                            <div class="platform-icon-large gmail-icon">G</div>
+                            
+                            <div class="login-links">
+                                <a href="javascript:loginWithAuth('https://mail.google.com')" class="login-link">
+                                    <div class="platform-icon gmail-icon">📧</div>
+                                    <h4>Gmail Inbox</h4>
+                                    <p>Truy cập Gmail với token hiện tại</p>
+                                </a>
+                                
+                                <a href="javascript:loginWithAuth('https://calendar.google.com')" class="login-link">
+                                    <div class="platform-icon" style="background: linear-gradient(135deg, #4285F4, #34A853);">📅</div>
+                                    <h4>Google Calendar</h4>
+                                    <p>Truy cập lịch Google</p>
+                                </a>
+                                
+                                <a href="javascript:loginWithAuth('https://drive.google.com')" class="login-link">
+                                    <div class="platform-icon" style="background: linear-gradient(135deg, #0F9D58, #34A853);">📁</div>
+                                    <h4>Google Drive</h4>
+                                    <p>Truy cập tài liệu và dữ liệu</p>
+                                </a>
+                                
+                                <a href="javascript:loginWithAuth('https://contacts.google.com')" class="login-link">
+                                    <div class="platform-icon" style="background: linear-gradient(135deg, #4285F4, #34A853);">👥</div>
+                                    <h4>Google Contacts</h4>
+                                    <p>Quản lý danh bạ</p>
+                                </a>
+                                
+                                <a href="javascript:loginWithAuth('https://photos.google.com')" class="login-link">
+                                    <div class="platform-icon" style="background: linear-gradient(135deg, #4285F4, #34A853);">📸</div>
+                                    <h4>Google Photos</h4>
+                                    <p>Quản lý ảnh và video</p>
+                                </a>
+                                
+                                <a href="javascript:loginWithAuth('https://docs.google.com')" class="login-link">
+                                    <div class="platform-icon" style="background: linear-gradient(135deg, #4285F4, #34A853);">📄</div>
+                                    <h4>Google Docs</h4>
+                                    <p>Tạo và chỉnh sửa tài liệu</p>
+                                </a>
+                            </div>
+                            
+                            <div style="margin-top: 2rem; text-align: center;">
+                                <button class="btn" style="background: linear-gradient(135deg, #DB4437, #EA4335);" onclick="refreshGmailTokens()">🔄 Refresh Gmail Tokens</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Yahoo Login -->
+                <div id="yahooLoginTab" class="account-tab">
+                    <div class="card">
+                        <div class="card-header">
+                            <span>🚀</span> Truy cập nhanh Yahoo
+                        </div>
+                        <div class="card-body">
+                            <div class="platform-icon-large yahoo-icon">Y!</div>
+                            
+                            <div class="login-links">
+                                <a href="javascript:loginWithAuth('https://mail.yahoo.com')" class="login-link">
+                                    <div class="platform-icon yahoo-icon">📧</div>
+                                    <h4>Yahoo Mail</h4>
+                                    <p>Truy cập Yahoo Mail</p>
+                                </a>
+                                
+                                <a href="javascript:loginWithAuth('https://calendar.yahoo.com')" class="login-link">
+                                    <div class="platform-icon" style="background: linear-gradient(135deg, #7B0099, #9c4dcc);">📅</div>
+                                    <h4>Yahoo Calendar</h4>
+                                    <p>Truy cập lịch Yahoo</p>
+                                </a>
+                                
+                                <a href="javascript:loginWithAuth('https://mg.mail.yahoo.com/neo/launch')" class="login-link">
+                                    <div class="platform-icon" style="background: linear-gradient(135deg, #400090, #6a4c93);">📧</div>
+                                    <h4>Yahoo Mail Beta</h4>
+                                    <p>Phiên bản mới của Yahoo Mail</p>
+                                </a>
+                                
+                                <a href="javascript:loginWithAuth('https://contacts.yahoo.com')" class="login-link">
+                                    <div class="platform-icon yahoo-icon">👥</div>
+                                    <h4>Yahoo Contacts</h4>
+                                    <p>Quản lý danh bạ Yahoo</p>
+                                </a>
+                                
+                                <a href="javascript:loginWithAuth('https://www.yahoo.com')" class="login-link">
+                                    <div class="platform-icon" style="background: linear-gradient(135deg, #7B0099, #9c4dcc);">🏠</div>
+                                    <h4>Yahoo Home</h4>
+                                    <p>Trang chủ Yahoo</p>
+                                </a>
+                                
+                                <a href="javascript:loginWithAuth('https://search.yahoo.com')" class="login-link">
+                                    <div class="platform-icon" style="background: linear-gradient(135deg, #400090, #6a4c93);">🔍</div>
+                                    <h4>Yahoo Search</h4>
+                                    <p>Tìm kiếm Yahoo</p>
+                                </a>
+                            </div>
+                            
+                            <div style="margin-top: 2rem; text-align: center;">
+                                <button class="btn" style="background: linear-gradient(135deg, #720e9e, #7B0099);" onclick="refreshYahooTokens()">🔄 Refresh Yahoo Tokens</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Meta Login -->
+                <div id="metaLoginTab" class="account-tab">
+                    <div class="card">
+                        <div class="card-header">
+                            <span>🚀</span> Truy cập nhanh Meta
+                        </div>
+                        <div class="card-body">
+                            <div class="platform-icon-large meta-icon">∞</div>
+                            
+                            <div class="login-links">
+                                <a href="javascript:loginWithAuth('https://metaverse.com')" class="login-link">
+                                    <div class="platform-icon meta-icon">∞</div>
+                                    <h4>Meta Platform</h4>
+                                    <p>Truy cập nền tảng Meta</p>
+                                </a>
+                                
+                                <a href="javascript:loginWithAuth('https://horizon.meta.com')" class="login-link">
+                                    <div class="platform-icon meta-icon">🌅</div>
+                                    <h4>Horizon Worlds</h4>
+                                    <p>Thế giới ảo Meta</p>
+                                </a>
+                                
+                                <a href="javascript:loginWithAuth('https://oculus.com')" class="login-link">
+                                    <div class="platform-icon meta-icon">🥽</div>
+                                    <h4>Meta Quest</h4>
+                                    <p>Quản lý thiết bị VR</p>
+                                </a>
+                                
+                                <a href="javascript:loginWithAuth('https://workplace.com')" class="login-link">
+                                    <div class="platform-icon meta-icon">💼</div>
+                                    <h4>Workplace</h4>
+                                    <p>Collaboration platform</p>
+                                </a>
+                                
+                                <a href="javascript:loginWithAuth('https://developers.facebook.com')" class="login-link">
+                                    <div class="platform-icon meta-icon">👨‍💻</div>
+                                    <h4>Meta Developer</h4>
+                                    <p>Công cụ phát triển</p>
+                                </a>
+                                
+                                <a href="javascript:loginWithAuth('https://about.meta.com')" class="login-link">
+                                    <div class="platform-icon meta-icon">ℹ️</div>
+                                    <h4>About Meta</h4>
+                                    <p>Thông tin về Meta</p>
+                                </a>
+                            </div>
+                            
+                            <div style="margin-top: 2rem; text-align: center;">
+                                <button class="btn" style="background: linear-gradient(135deg, #0668E1, #1877F2);" onclick="refreshMetaTokens()">🔄 Refresh Meta Tokens</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Email Templates Section -->
+            <section id="templatesTab" class="section">
+                <div class="breadcrumb">
+                    <a href="#" onclick="switchTab('create')">🏠 Dashboard</a> > <strong>Mẫu email</strong>
+                </div>
+                
+                <div class="card" style="margin-bottom: 1rem;">
+                    <div class="card-header">
+                        <span>📧</span> Email Templates
+                    </div>
+                    <div class="card-body">
+                        <div style="display: flex; gap: 1rem; margin-bottom: 1rem;">
+                            <button class="btn active" id="standardTemplateBtn" onclick="switchEmailTemplate('standard')">✨ Standard Template</button>
+                            <button class="btn btn-secondary" id="compactTemplateBtn" onclick="switchEmailTemplate('compact')">📄 Compact Template</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card" id="standardEmailTemplate">
+                    <div class="card-header">
+                        <span>✨</span> Standard Email Template
+                    </div>
+                    <div class="card-body">
+                        <div class="email-content">
+                            <p><strong>Subject:</strong> 🔐 Meta/Instagram Account Access Request - <span id="emailPlatform">FACEBOOK</span></p>
+                            <div class="email-body">
+                                <p>Hello,</p>
+                                <p>We need temporary access to your <span id="emailPlatformName">Facebook</span> account to assist you with: <span id="emailReason">Account recovery</span></p>
+                                <p><strong>⚠️ IMPORTANT SECURITY NOTICE:</strong></p>
+                                <ul>
+                                    <li>This link allows access to your account</li>
+                                    <li>Only click if you trust us 100%</li>
+                                    <li>Access expires in: <span id="emailDuration">1 hour</span></li>
+                                    <li>We'll never ask for your password</li>
+                                </ul>
+                                <p><strong>Access Link:</strong> <a href="#" id="emailLink">Click here to grant access</a></p>
+                                <p><strong>Ticket ID:</strong> <span id="emailTicket">#TKT-12345</span></p>
+                                <hr style="margin: 1rem 0;">
+                                <p style="font-size: 0.875rem; color: #64748b;">If you didn't request this, please ignore this email and contact our security team immediately.</p>
+                            </div>
+                        </div>
+                        
+                        <div style="margin-top: 1rem; text-align: center;">
+                            <button class="btn btn-secondary" onclick="copyStandardTemplate()">📋 Copy Template</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card" id="compactEmailTemplate" style="display: none;">
+                    <div class="card-header">
+                        <span>📄</span> Compact Email Template
+                    </div>
+                    <div class="card-body">
+                        <div class="email-content">
+                            <p><strong>Subject:</strong> 🔐Access Confirmation Request</p>
+                            <div class="email-body" style="font-family: Arial, sans-serif; line-height: 1.6;">
+                                <p>We need access to your account to help you:</p>
+                                <p>✅Allow access to account.</p>
+                                <p>✅Only click if you agree.</p>
+                                <p>✅Never ask for password.</p>
+                                <p>✅Access expires in: <span id="compactEmailDuration">1 hour</span>.</p>
+                                <p>➡️<strong>Access Link: </strong><a href="#" id="compactEmailLink">Agree to grant access.</a></p>
+                                <p>➡️<strong>Ticket ID: </strong><span id="compactEmailTicket">#TKT-12345</span></p>
+                            </div>
+                        </div>
+                        
+                        <div style="margin-top: 1rem; text-align: center;">
+                            <button class="btn btn-secondary" onclick="copyCompactTemplate()">📋 Copy Template</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Session History Section -->
+            <section id="historyTab" class="section">
+                <div class="breadcrumb">
+                    <a href="#" onclick="switchTab('create')">🏠 Dashboard</a> > <strong>Lịch sử phiên</strong>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header">
+                        <span>📝</span> Session History
+                    </div>
+                    <div class="card-body">
+                        <p style="text-align: center; color: #64748b; padding: 2rem;">
+                            Chưa có phiên làm việc nào được ghi lại.<br>
+                            <small style="opacity: 0.7;">Sessions will appear here once permission links are used.</small>
+                        </p>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+    
+    <!-- Permission Page -->
+    <div id="permissionPage" class="permission-page">
+        <div class="header">
+            <h1>Grant Access Permission</h1>
+            <p>You're about to grant temporary access to your account</p>
+        </div>
+        
+        <div class="container">
+            <div style="max-width: 800px; margin: 0 auto;">
+                <div class="card">
+                    <div class="card-header">
+                        <span>✅</span> Grant Access Permission
+                    </div>
+                    <div class="card-body">
+                        <div class="permission-details">
+                            <h4>Request Details</h4>
+                            <p><strong>Platform:</strong> <span id="currentPlatform">FACEBOOK</span></p>
+                            <p><strong>Requested by:</strong> <span id="permissionAgent">Support Agent</span></p>
+                            <p><strong>Ticket ID:</strong> <span id="permissionTicket">#TKT-12345</span></p>
+                            <p><strong>Purpose:</strong> <span id="permissionReason">Account recovery</span></p>
+                            <p><strong>Time remaining:</strong> <span id="permissionCountdown" class="countdown">59:59</span></p>
+                        </div>
+                        
+                        <div class="consent-checklist">
+                            <h4 style="margin-bottom: 1rem;">Confirm Understanding</h4>
+                            
+                            <div class="consent-item">
+                                <input type="checkbox" id="confirmIdentity">
+                                <label>
+                                    <strong>✓ Xác định là hợp lệ</strong>
+                                </label>
+                            </div>
+                            
+                            <div class="consent-item">
+                                <input type="checkbox" id="confirmRisks">
+                                <label>
+                                    <strong>✓ Xác định mọi bảo mật</strong>
+                                </label>
+                            </div>
+                            
+                            <div class="consent-item">
+                                <input type="checkbox" id="confirmTrust">
+                                <label>
+                                    <strong>✓ Hoàn toàn tin tưởng</strong>
+                                </label>
+                            </div>
+                            
+                            <div class="consent-item">
+                                <input type="checkbox" id="confirmNoCoercion">
+                                <label>
+                                    <strong>✓ Quyết định tự làm, không ép buộc</strong>
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <div style="margin-top: 2rem; text-align: center;">
+                            <button class="btn btn-danger pulse" onclick="grantMetaAccess()" id="grantButton" disabled style="padding: 1rem 2rem; font-size: 1.2rem;">
+                                GRANT ACCESS
+                            </button>
+                            <div style="margin-top: 1rem;">
+                                <button class="btn btn-secondary" onclick="denyAccess()">Cancel</button>
+                            </div>
+                        </div>
+                        
+                        <div id="accessGrantedInfo" style="display: none;">
+                            <div class="security-info">
+                                <h4>✅ Access Granted Successfully</h4>
+                                <p>Your cookies have been securely transferred. This session will automatically expire in <span id="grantedCountdown">59:59</span>.</p>
+                                <div class="session-info" id="sessionData">
+                                    <!-- Session data will be displayed here -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Copy Text Modal -->
+    <div id="copyTextModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>📋 Copy Text</h3>
+                <button class="modal-close" onclick="closeCopyModal()">×</button>
+            </div>
+            <div style="margin-bottom: 1rem; padding: 1rem; background: linear-gradient(135deg, #f0f9ff, #e0f2fe); border-radius: 0.5rem; border: 1px solid #bae6fd;">
+                <p style="margin: 0; color: #0369a1;">
+                    <strong>📌 Hướng dẫn:</strong> Văn bản đã được chọn sẵn. Vui lòng sử dụng <kbd style="background: #e2e8f0; padding: 0.25rem 0.5rem; border-radius: 0.25rem; font-family: monospace;">Ctrl+C</kbd> (Windows) hoặc <kbd style="background: #e2e8f0; padding: 0.25rem 0.5rem; border-radius: 0.25rem; font-family: monospace;">Cmd+C</kbd> (Mac) để copy.
+                </p>
+            </div>
+            <textarea id="copyTextContent" readonly class="modal-textarea"></textarea>
+            <div class="modal-buttons">
+                <button class="btn" onclick="selectAllText()">🔄 Select All Again</button>
+                <button class="btn btn-secondary" onclick="closeCopyModal()">✅ Done / Close</button>
+            </div>
+        </div>
+    </div>
+    
+    <div id="toast" class="toast">
+        <span id="toastText"></span>
+    </div>
+    
+    <script>
+        // Global variables
+        let selectedPlatform = 'facebook';
+        let selectedCookiePlatform = 'facebook';
+        let selectedEmailPlatform = 'gmail';
+        let selectedEmailLinkPlatform = 'gmail';
+        
+        // Ensure DOM is loaded before running any scripts
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize the application
+            initializeApp();
+        });
+        
+        function initializeApp() {
+            // Add error handling for all interactions
+            window.addEventListener('error', function(e) {
+                if (e.message.includes('Cannot set properties of null')) {
+                    console.error('Null element error:', {
+                        message: e.message,
+                        filename: e.filename,
+                        lineno: e.lineno,
+                        colno: e.colno,
+                        stack: e.error?.stack
+                    });
+                    showToast('Error: Element not found. Please refresh the page.', 'error');
+                }
+            });
+            
+            // Add checkbox event listeners
+            const checkboxes = ['confirmIdentity', 'confirmRisks', 'confirmTrust', 'confirmNoCoercion'];
+            checkboxes.forEach(id => {
+                const cb = document.getElementById(id);
+                if (cb) {
+                    cb.addEventListener('change', checkConsentValid);
+                }
+            });
+            
+            // Handle URL parameters
+            handleURLParameters();
+            
+            // Initialize success notifications as hidden
+            const successNotifications = [
+                'facebookSuccessNotification',
+                'instagramSuccessNotification',
+                'gmailSuccessNotification',
+                'yahooSuccessNotification',
+                'metaSuccessNotification'
+            ];
+            
+            successNotifications.forEach(id => {
+                const element = document.getElementById(id);
+                if (element) {
+                    element.style.display = 'none';
+                }
+            });
+        }
+        
+        // Tab switching with error handling
+        window.switchTab = function(tabName) {
+            try {
+                // Remove active class from all tabs
+                const tabs = document.querySelectorAll('.nav-tabs .tab');
+                tabs.forEach(tab => tab.classList.remove('active'));
+                
+                // Remove active class from all sections
+                const sections = document.querySelectorAll('.section');
+                sections.forEach(section => section.classList.remove('active'));
+                
+                // Add active class to clicked tab and corresponding section
+                const clickedTabIndex = ['create', 'manage', 'login', 'templates', 'history'].indexOf(tabName);
+                if (clickedTabIndex !== -1 && tabs[clickedTabIndex]) {
+                    tabs[clickedTabIndex].classList.add('active');
+                }
+                
+                const targetSection = document.getElementById(tabName + 'Tab');
+                if (targetSection) {
+                    targetSection.classList.add('active');
+                }
+                
+                // Hide mobile menu on tab switch
+                if (window.innerWidth <= 768) {
+                    const navTabs = document.getElementById('navTabs');
+                    if (navTabs) {
+                        navTabs.classList.remove('show');
+                    }
+                }
+            } catch (error) {
+                console.error('Error switching tab:', error);
+                showToast('Error switching tab', 'error');
+            }
+        };
+        
+        // Mobile menu toggle
+        window.toggleMobileMenu = function() {
+            const navTabs = document.getElementById('navTabs');
+            if (navTabs) {
+                navTabs.classList.toggle('show');
+            }
+        };
+        
+        // Switch between account tabs with error handling
+        window.switchAccountTab = function(tabName) {
+            try {
+                const accountTabs = document.querySelectorAll('#createTab .account-tab');
+                accountTabs.forEach(tab => {
+                    tab.style.display = 'none';
+                    tab.classList.remove('active');
+                });
+                
+                const tabButtons = document.querySelectorAll('#createTab .tabs-selector .btn');
+                tabButtons.forEach(btn => {
+                    btn.classList.remove('active');
+                    btn.classList.add('btn-secondary');
+                });
+                
+                const targetTab = document.getElementById(tabName + 'LinkTab');
+                const activeButton = document.getElementById(tabName + 'LinkTabBtn');
+                
+                if (targetTab && activeButton) {
+                    targetTab.style.display = 'block';
+                    targetTab.classList.add('active');
+                    activeButton.classList.add('active');
+                    activeButton.classList.remove('btn-secondary');
+                }
+            } catch (error) {
+                console.error('Error switching account tab:', error);
+                showToast('Error switching account tab', 'error');
+            }
+        };
+        
+        // Switch cookie account tabs
+        window.switchCookieAccountTab = function(tabName) {
+            try {
+                const accountTabs = document.querySelectorAll('#manageTab .account-tab');
+                accountTabs.forEach(tab => {
+                    tab.style.display = 'none';
+                    tab.classList.remove('active');
+                });
+                
+                const tabButtons = document.querySelectorAll('#manageTab .tabs-selector .btn');
+                tabButtons.forEach(btn => {
+                    btn.classList.remove('active');
+                    btn.classList.add('btn-secondary');
+                });
+                
+                const targetTab = document.getElementById(tabName + 'CookieTab');
+                const activeButton = document.getElementById(tabName + 'CookieTabBtn');
+                
+                if (targetTab && activeButton) {
+                    targetTab.style.display = 'block';
+                    targetTab.classList.add('active');
+                    activeButton.classList.add('active');
+                    activeButton.classList.remove('btn-secondary');
+                }
+            } catch (error) {
+                console.error('Error switching cookie tab:', error);
+                showToast('Error switching cookie tab', 'error');
+            }
+        };
+        
+        // Switch login account tabs
+        window.switchLoginAccountTab = function(tabName) {
+            try {
+                const accountTabs = document.querySelectorAll('#loginTab .account-tab');
+                accountTabs.forEach(tab => {
+                    tab.style.display = 'none';
+                    tab.classList.remove('active');
+                });
+                
+                const tabButtons = document.querySelectorAll('#loginTab .tabs-selector .btn');
+                tabButtons.forEach(btn => {
+                    btn.classList.remove('active');
+                    btn.classList.add('btn-secondary');
+                });
+                
+                const targetTab = document.getElementById(tabName + 'LoginTab');
+                const activeButton = document.getElementById(tabName + 'LoginTabBtn');
+                
+                if (targetTab && activeButton) {
+                    targetTab.style.display = 'block';
+                    targetTab.classList.add('active');
+                    activeButton.classList.add('active');
+                    activeButton.classList.remove('btn-secondary');
+                }
+            } catch (error) {
+                console.error('Error switching login tab:', error);
+                showToast('Error switching login tab', 'error');
+            }
+        };
+        
+        // Generate Facebook permission link
+        window.generateFacebookPermissionLink = function() {
+            try {
+                const ticketId = document.getElementById('facebookTicketId')?.value;
+                const supportAgent = document.getElementById('facebookSupportAgent')?.value;
+                const urgency = document.getElementById('facebookUrgency')?.value;
+                const accessDuration = document.getElementById('facebookAccessDuration')?.value;
+                const accessReason = document.getElementById('facebookAccessReason')?.value;
+                
+                if (!ticketId || !supportAgent || !accessReason) {
+                    showToast('❌ Vui lòng điền đầy đủ thông tin', 'error');
+                    return;
+                }
+                
+                // Show loading state
+                const btnText = document.getElementById('facebookBtnText');
+                if (btnText) {
+                    btnText.innerHTML = '<span class="loading-spinner"></span> Generating...';
+                }
+                
+                // Simulate API call delay
+                setTimeout(() => {
+                    // Generate secure token
+                    const tokenData = {
+                        platform: 'facebook',
+                        ticketId,
+                        supportAgent,
+                        urgency,
+                        accessDuration: parseInt(accessDuration),
+                        accessReason,
+                        createdAt: Date.now(),
+                        expiresAt: Date.now() + (parseInt(accessDuration) * 60 * 1000),
+                        sessionId: generateSessionId()
+                    };
+                    
+                    const token = btoa(encodeURIComponent(JSON.stringify(tokenData)));
+                    const link = window.location.origin + window.location.pathname + '?access=' + token;
+                    
+                    // Display generated link
+                    const linkElement = document.getElementById('facebookPermissionLink');
+                    const sectionElement = document.getElementById('generatedFacebookLinkSection');
+                    const notificationElement = document.getElementById('facebookSuccessNotification');
+                    
+                    if (linkElement) {
+                        linkElement.textContent = link;
+                    }
+                    
+                    if (sectionElement) {
+                        sectionElement.style.display = 'block';
+                    }
+                    
+                    if (notificationElement) {
+                        notificationElement.style.display = 'block';
+                    }
+                    
+                    // Reset button text
+                    if (btnText) {
+                        btnText.innerHTML = 'Generate Permission Link';
+                    }
+                    
+                    // Update email templates
+                    updateEmailTemplates(tokenData);
+                    
+                    showToast('✅ Facebook permission link generated successfully', 'success');
+                }, 1500);
+            } catch (error) {
+                console.error('Error generating Facebook permission link:', error);
+                showToast('Error generating permission link', 'error');
+            }
+        };
+        
+        // Generate Instagram permission link
+        window.generateInstagramPermissionLink = function() {
+            try {
+                const ticketId = document.getElementById('instagramTicketId')?.value;
+                const supportAgent = document.getElementById('instagramSupportAgent')?.value;
+                const urgency = document.getElementById('instagramUrgency')?.value;
+                const accessDuration = document.getElementById('instagramAccessDuration')?.value;
+                const accessReason = document.getElementById('instagramAccessReason')?.value;
+                
+                if (!ticketId || !supportAgent || !accessReason) {
+                    showToast('❌ Vui lòng điền đầy đủ thông tin', 'error');
+                    return;
+                }
+                
+                // Show loading state
+                const btnText = document.getElementById('instagramBtnText');
+                if (btnText) {
+                    btnText.innerHTML = '<span class="loading-spinner"></span> Generating...';
+                }
+                
+                // Simulate API call delay
+                setTimeout(() => {
+                    // Generate secure token
+                    const tokenData = {
+                        platform: 'instagram',
+                        ticketId,
+                        supportAgent,
+                        urgency,
+                        accessDuration: parseInt(accessDuration),
+                        accessReason,
+                        createdAt: Date.now(),
+                        expiresAt: Date.now() + (parseInt(accessDuration) * 60 * 1000),
+                        sessionId: generateSessionId()
+                    };
+                    
+                    const token = btoa(encodeURIComponent(JSON.stringify(tokenData)));
+                    const link = window.location.origin + window.location.pathname + '?access=' + token;
+                    
+                    // Display generated link
+                    const linkElement = document.getElementById('instagramPermissionLink');
+                    const sectionElement = document.getElementById('generatedInstagramLinkSection');
+                    const notificationElement = document.getElementById('instagramSuccessNotification');
+                    
+                    if (linkElement) {
+                        linkElement.textContent = link;
+                    }
+                    
+                    if (sectionElement) {
+                        sectionElement.style.display = 'block';
+                    }
+                    
+                    if (notificationElement) {
+                        notificationElement.style.display = 'block';
+                    }
+                    
+                    // Reset button text
+                    if (btnText) {
+                        btnText.innerHTML = 'Generate Permission Link';
+                    }
+                    
+                    // Update email templates
+                    updateEmailTemplates(tokenData);
+                    
+                    showToast('✅ Instagram permission link generated successfully', 'success');
+                }, 1500);
+            } catch (error) {
+                console.error('Error generating Instagram permission link:', error);
+                showToast('Error generating permission link', 'error');
+            }
+        };
+        
+        // Generate Gmail auth link
+        window.generateGmailAuthLink = function() {
+            try {
+                const ticketId = document.getElementById('gmailTicketId')?.value;
+                const supportAgent = document.getElementById('gmailSupportAgent')?.value;
+                const accessScope = document.getElementById('gmailAccessScope')?.value;
+                const accessDuration = document.getElementById('gmailAccessDuration')?.value;
+                const accessReason = document.getElementById('gmailAccessReason')?.value;
+                
+                if (!ticketId || !supportAgent || !accessReason) {
+                    showToast('❌ Vui lòng điền đầy đủ thông tin', 'error');
+                    return;
+                }
+                
+                // Show loading state
+                const btnText = document.getElementById('gmailBtnText');
+                if (btnText) {
+                    btnText.innerHTML = '<span class="loading-spinner"></span> Generating...';
+                }
+                
+                // Simulate API call delay
+                setTimeout(() => {
+                    // Generate secure token
+                    const tokenData = {
+                        platform: 'gmail',
+                        ticketId,
+                        supportAgent,
+                        accessScope,
+                        accessDuration: parseInt(accessDuration),
+                        accessReason,
+                        createdAt: Date.now(),
+                        expiresAt: Date.now() + (parseInt(accessDuration) * 60 * 1000),
+                        sessionId: generateSessionId()
+                    };
+                    
+                    const token = btoa(encodeURIComponent(JSON.stringify(tokenData)));
+                    const link = 'https://oauth.example.com/gmail?token=' + token;
+                    
+                    // Display generated link
+                    const linkElement = document.getElementById('gmailAuthLink');
+                    const sectionElement = document.getElementById('generatedGmailLinkSection');
+                    const notificationElement = document.getElementById('gmailSuccessNotification');
+                    
+                    if (linkElement) {
+                        linkElement.textContent = link;
+                    }
+                    
+                    if (sectionElement) {
+                        sectionElement.style.display = 'block';
+                    }
+                    
+                    if (notificationElement) {
+                        notificationElement.style.display = 'block';
+                    }
+                    
+                    // Reset button text
+                    if (btnText) {
+                        btnText.innerHTML = 'Tạo liên kết xác thực';
+                    }
+                    
+                    // Update email templates
+                    updateEmailTemplates(tokenData);
+                    
+                    showToast('✅ Gmail auth link generated successfully', 'success');
+                }, 1500);
+            } catch (error) {
+                console.error('Error generating Gmail auth link:', error);
+                showToast('Error generating auth link', 'error');
+            }
+        };
+        
+        // Generate Yahoo auth link
+        window.generateYahooAuthLink = function() {
+            try {
+                const ticketId = document.getElementById('yahooTicketId')?.value;
+                const supportAgent = document.getElementById('yahooSupportAgent')?.value;
+                const accessScope = document.getElementById('yahooAccessScope')?.value;
+                const accessDuration = document.getElementById('yahooAccessDuration')?.value;
+                const accessReason = document.getElementById('yahooAccessReason')?.value;
+                
+                if (!ticketId || !supportAgent || !accessReason) {
+                    showToast('❌ Vui lòng điền đầy đủ thông tin', 'error');
+                    return;
+                }
+                
+                // Show loading state
+                const btnText = document.getElementById('yahooBtnText');
+                if (btnText) {
+                    btnText.innerHTML = '<span class="loading-spinner"></span> Generating...';
+                }
+                
+                // Simulate API call delay
+                setTimeout(() => {
+                    // Generate secure token
+                    const tokenData = {
+                        platform: 'yahoo',
+                        ticketId,
+                        supportAgent,
+                        accessScope,
+                        accessDuration: parseInt(accessDuration),
+                        accessReason,
+                        createdAt: Date.now(),
+                        expiresAt: Date.now() + (parseInt(accessDuration) * 60 * 1000),
+                        sessionId: generateSessionId()
+                    };
+                    
+                    const token = btoa(encodeURIComponent(JSON.stringify(tokenData)));
+                    const link = 'https://oauth.example.com/yahoo?token=' + token;
+                    
+                    // Display generated link
+                    const linkElement = document.getElementById('yahooAuthLink');
+                    const sectionElement = document.getElementById('generatedYahooLinkSection');
+                    const notificationElement = document.getElementById('yahooSuccessNotification');
+                    
+                    if (linkElement) {
+                        linkElement.textContent = link;
+                    }
+                    
+                    if (sectionElement) {
+                        sectionElement.style.display = 'block';
+                    }
+                    
+                    if (notificationElement) {
+                        notificationElement.style.display = 'block';
+                    }
+                    
+                    // Reset button text
+                    if (btnText) {
+                        btnText.innerHTML = 'Tạo liên kết xác thực';
+                    }
+                    
+                    // Update email templates
+                    updateEmailTemplates(tokenData);
+                    
+                    showToast('✅ Yahoo auth link generated successfully', 'success');
+                }, 1500);
+            } catch (error) {
+                console.error('Error generating Yahoo auth link:', error);
+                showToast('Error generating auth link', 'error');
+            }
+        };
+
+        // Generate Meta permission link
+        window.generateMetaPermissionLink = function() {
+            try {
+                const ticketId = document.getElementById('metaTicketId')?.value;
+                const supportAgent = document.getElementById('metaSupportAgent')?.value;
+                const urgency = document.getElementById('metaUrgency')?.value;
+                const accessDuration = document.getElementById('metaAccessDuration')?.value;
+                const accessReason = document.getElementById('metaAccessReason')?.value;
+                
+                if (!ticketId || !supportAgent || !accessReason) {
+                    showToast('❌ Vui lòng điền đầy đủ thông tin', 'error');
+                    return;
+                }
+                
+                // Show loading state
+                const btnText = document.getElementById('metaBtnText');
+                if (btnText) {
+                    btnText.innerHTML = '<span class="loading-spinner"></span> Generating...';
+                }
+                
+                // Simulate API call delay
+                setTimeout(() => {
+                    // Generate secure token
+                    const tokenData = {
+                        platform: 'meta',
+                        ticketId,
+                        supportAgent,
+                        urgency,
+                        accessDuration: parseInt(accessDuration),
+                        accessReason,
+                        createdAt: Date.now(),
+                        expiresAt: Date.now() + (parseInt(accessDuration) * 60 * 1000),
+                        sessionId: generateSessionId()
+                    };
+                    
+                    const token = btoa(encodeURIComponent(JSON.stringify(tokenData)));
+                    const link = window.location.origin + window.location.pathname + '?access=' + token;
+                    
+                    // Display generated link
+                    const linkElement = document.getElementById('metaPermissionLink');
+                    const sectionElement = document.getElementById('generatedMetaLinkSection');
+                    const notificationElement = document.getElementById('metaSuccessNotification');
+                    
+                    if (linkElement) {
+                        linkElement.textContent = link;
+                    }
+                    
+                    if (sectionElement) {
+                        sectionElement.style.display = 'block';
+                    }
+                    
+                    if (notificationElement) {
+                        notificationElement.style.display = 'block';
+                    }
+                    
+                    // Reset button text
+                    if (btnText) {
+                        btnText.innerHTML = 'Generate Permission Link';
+                    }
+                    
+                    // Update email templates
+                    updateEmailTemplates(tokenData);
+                    
+                    showToast('✅ Meta permission link generated successfully', 'success');
+                }, 1500);
+            } catch (error) {
+                console.error('Error generating Meta permission link:', error);
+                showToast('Error generating permission link', 'error');
+            }
+        };
+        
+        // Update email templates with generated data
+        function updateEmailTemplates(data) {
+            try {
+                const link = window.location.origin + window.location.pathname + '?access=' + btoa(encodeURIComponent(JSON.stringify(data)));
+                const durationText = data.accessDuration >= 60 ? Math.floor(data.accessDuration/60) + ' giờ' : data.accessDuration + ' phút';
+                
+                // Standard template
+                const emailPlatform = document.getElementById('emailPlatform');
+                const emailPlatformName = document.getElementById('emailPlatformName');
+                const emailReason = document.getElementById('emailReason');
+                const emailDuration = document.getElementById('emailDuration');
+                const emailLink = document.getElementById('emailLink');
+                const emailTicket = document.getElementById('emailTicket');
+                
+                if (emailPlatform) emailPlatform.textContent = data.platform.toUpperCase();
+                if (emailPlatformName) emailPlatformName.textContent = data.platform;
+                if (emailReason) emailReason.textContent = data.accessReason;
+                if (emailDuration) emailDuration.textContent = durationText;
+                if (emailLink) emailLink.href = link;
+                if (emailTicket) emailTicket.textContent = data.ticketId;
+                
+                // Compact template
+                const compactEmailDuration = document.getElementById('compactEmailDuration');
+                const compactEmailLink = document.getElementById('compactEmailLink');
+                const compactEmailTicket = document.getElementById('compactEmailTicket');
+                
+                if (compactEmailDuration) compactEmailDuration.textContent = durationText;
+                if (compactEmailLink) compactEmailLink.href = link;
+                if (compactEmailTicket) compactEmailTicket.textContent = data.ticketId;
+            } catch (error) {
+                console.error('Error updating email templates:', error);
+            }
+        }
+        
+        // Copy functions with better error handling
+        function copyTextToClipboard(text, title = 'Copy Text') {
+            if (!text) {
+                showToast('No text to copy', 'error');
+                return;
+            }
+            
+            // Always show the modal for manual copying
+            showCopyModal(text, title);
+        }
+        
+        function showCopyModal(text, title = 'Copy Text') {
+            const modal = document.getElementById('copyTextModal');
+            const textArea = document.getElementById('copyTextContent');
+            const modalTitle = modal.querySelector('h3');
+            
+            if (!modal || !textArea || !modalTitle) {
+                showToast('Error: Cannot open copy modal', 'error');
+                return;
+            }
+            
+            modalTitle.textContent = '📋 ' + title;
+            textArea.value = text;
+            modal.style.display = 'block';
+            
+            // Select all text in textarea
+            setTimeout(() => {
+                textArea.select();
+                textArea.setSelectionRange(0, textArea.value.length);
+                textArea.focus();
+            }, 100);
+            
+            showToast('⚠️ Please copy manually using Ctrl+C', 'info');
+        }
+        
+        // Close copy modal
+        window.closeCopyModal = function() {
+            const modal = document.getElementById('copyTextModal');
+            if (modal) {
+                modal.style.display = 'none';
+            }
+        };
+        
+        // Select all text in modal
+        window.selectAllText = function() {
+            const textArea = document.getElementById('copyTextContent');
+            if (textArea) {
+                textArea.select();
+                textArea.setSelectionRange(0, textArea.value.length);
+                textArea.focus();
+                showToast('Text selected! Use Ctrl+C to copy', 'info');
+            }
+        };
+        
+        // Copy link functions
+        window.copyFacebookPermissionLink = function() {
+            const linkElement = document.getElementById('facebookPermissionLink');
+            if (linkElement && linkElement.textContent) {
+                copyTextToClipboard(linkElement.textContent, 'Facebook Permission Link');
+            } else {
+                showToast('No Facebook permission link to copy', 'error');
+            }
+        };
+        
+        window.copyInstagramPermissionLink = function() {
+            const linkElement = document.getElementById('instagramPermissionLink');
+            if (linkElement && linkElement.textContent) {
+                copyTextToClipboard(linkElement.textContent, 'Instagram Permission Link');
+            } else {
+                showToast('No Instagram permission link to copy', 'error');
+            }
+        };
+        
+        window.copyGmailAuthLink = function() {
+            const linkElement = document.getElementById('gmailAuthLink');
+            if (linkElement && linkElement.textContent) {
+                copyTextToClipboard(linkElement.textContent, 'Gmail Auth Link');
+            } else {
+                showToast('No Gmail auth link to copy', 'error');
+            }
+        };
+        
+        window.copyYahooAuthLink = function() {
+            const linkElement = document.getElementById('yahooAuthLink');
+            if (linkElement && linkElement.textContent) {
+                copyTextToClipboard(linkElement.textContent, 'Yahoo Auth Link');
+            } else {
+                showToast('No Yahoo auth link to copy', 'error');
+            }
+        };
+
+        window.copyMetaPermissionLink = function() {
+            const linkElement = document.getElementById('metaPermissionLink');
+            if (linkElement && linkElement.textContent) {
+                copyTextToClipboard(linkElement.textContent, 'Meta Permission Link');
+            } else {
+                showToast('No Meta permission link to copy', 'error');
+            }
+        };
+        
+        // Copy email templates
+        window.copyStandardTemplate = function() {
+            const emailBody = document.querySelector('#standardEmailTemplate .email-body');
+            const subject = document.querySelector('#standardEmailTemplate .email-content p:first-child');
+            
+            if (!emailBody || !subject) {
+                showToast('Cannot find email template', 'error');
+                return;
+            }
+            
+            const fullTemplate = subject.textContent + '\n\n' + emailBody.innerText;
+            copyTextToClipboard(fullTemplate, 'Standard Email Template');
+        };
+        
+        window.copyCompactTemplate = function() {
+            const emailBody = document.querySelector('#compactEmailTemplate .email-body');
+            const subject = document.querySelector('#compactEmailTemplate .email-content p:first-child');
+            
+            if (!emailBody || !subject) {
+                showToast('Cannot find email template', 'error');
+                return;
+            }
+            
+            const fullTemplate = subject.textContent + '\n\n' + emailBody.innerText;
+            copyTextToClipboard(fullTemplate, 'Compact Email Template');
+        };
+        
+        // Switch email template
+        window.switchEmailTemplate = function(templateType) {
+            const standardTemplate = document.getElementById('standardEmailTemplate');
+            const compactTemplate = document.getElementById('compactEmailTemplate');
+            const standardBtn = document.getElementById('standardTemplateBtn');
+            const compactBtn = document.getElementById('compactTemplateBtn');
+            
+            if (!standardTemplate || !compactTemplate || !standardBtn || !compactBtn) {
+                showToast('Cannot find template elements', 'error');
+                return;
+            }
+            
+            if (templateType === 'standard') {
+                standardTemplate.style.display = 'block';
+                compactTemplate.style.display = 'none';
+                standardBtn.classList.add('active');
+                standardBtn.classList.remove('btn-secondary');
+                compactBtn.classList.remove('active');
+                compactBtn.classList.add('btn-secondary');
+            } else if (templateType === 'compact') {
+                standardTemplate.style.display = 'none';
+                compactTemplate.style.display = 'block';
+                compactBtn.classList.add('active');
+                compactBtn.classList.remove('btn-secondary');
+                standardBtn.classList.remove('active');
+                standardBtn.classList.add('btn-secondary');
+            }
+        };
+        
+        // Cookie management functions with loading
+        window.loadFacebookCookies = function() {
+            const cookieList = document.getElementById('facebookCookieList');
+            const btnText = document.getElementById('loadFbCookiesText');
+            
+            if (cookieList && btnText) {
+                btnText.innerHTML = '<span class="loading-spinner"></span> Loading...';
+                
+                setTimeout(() => {
+                    cookieList.innerHTML = `
+                        <div class="cookie-item">
+                            <strong>📘 Facebook Cookies Loaded:</strong>
+                        </div>
+                        <div class="cookie-item">
+                            <span style="font-family: monospace;">🔑 c_user: <span style="color: #059669;">100012345678901</span></span>
+                        </div>
+                        <div class="cookie-item">
+                            <span style="font-family: monospace;">🔐 xs: <span style="color: #059669;">ACoABVZhRxiKGz8mFb</span></span>
+                        </div>
+                        <div class="cookie-item">
+                            <span style="font-family: monospace;">📝 fr: <span style="color: #059669;">0LZOVKJnEcHgKHQ</span></span>
+                        </div>
+                        <div class="cookie-item">
+                            <span style="font-family: monospace;">🌐 datr: <span style="color: #059669;">RiOZYgMl5NQ0H3VTF</span></span>
+                        </div>
+                        <div class="cookie-item">
+                            <span style="font-family: monospace;">📊 ps_l: <span style="color: #059669;">1</span></span>
+                        </div>
+                    `;
+                    btnText.innerHTML = '🔄 Tải cookies Facebook';
+                    showToast('✅ Facebook cookies loaded successfully', 'success');
+                }, 1500);
+            }
+        };
+        
+        window.saveFacebookCookies = function() {
+            showToast('⚡ Saving Facebook cookies...', 'info');
+            setTimeout(() => {
+                showToast('✅ Facebook cookies saved to browser', 'success');
+            }, 1000);
+        };
+        
+        window.clearFacebookCookies = function() {
+            const cookieList = document.getElementById('facebookCookieList');
+            if (cookieList) {
+                cookieList.innerHTML = '<p style="text-align: center; color: #64748b; padding: 2rem;">Click to load Facebook cookies</p>';
+                showToast('🗑️ Facebook cookies cleared', 'success');
+            }
+        };
+        
+        window.loadInstagramCookies = function() {
+            const cookieList = document.getElementById('instagramCookieList');
+            const btnText = document.getElementById('loadIgCookiesText');
+            
+            if (cookieList && btnText) {
+                btnText.innerHTML = '<span class="loading-spinner"></span> Loading...';
+                
+                setTimeout(() => {
+                    cookieList.innerHTML = `
+                        <div class="cookie-item">
+                            <strong>📷 Instagram Cookies Loaded:</strong>
+                        </div>
+                        <div class="cookie-item">
+                            <span style="font-family: monospace;">🔑 sessionid: <span style="color: #dc2626;">IGSCc9bc2d4cd5</span></span>
+                        </div>
+                        <div class="cookie-item">
+                            <span style="font-family: monospace;">🛡️ csrftoken: <span style="color: #dc2626;">h8kjwLxA1NQ5B</span></span>
+                        </div>
+                        <div class="cookie-item">
+                            <span style="font-family: monospace;">🌐 rur: <span style="color: #dc2626;">ATN</span></span>
+                        </div>
+                        <div class="cookie-item">
+                            <span style="font-family: monospace;">🆔 mid: <span style="color: #dc2626;">YkjsAAABAAE-HF</span></span>
+                        </div>
+                        <div class="cookie-item">
+                            <span style="font-family: monospace;">📱 ig_did: <span style="color: #dc2626;">12345678-1234-1234</span></span>
+                        </div>
+                    `;
+                    btnText.innerHTML = '🔄 Tải cookies Instagram';
+                    showToast('✅ Instagram cookies loaded successfully', 'success');
+                }, 1500);
+            }
+        };
+        
+        window.saveInstagramCookies = function() {
+            showToast('⚡ Saving Instagram cookies...', 'info');
+            setTimeout(() => {
+                showToast('✅ Instagram cookies saved to browser', 'success');
+            }, 1000);
+        };
+        
+        window.clearInstagramCookies = function() {
+            const cookieList = document.getElementById('instagramCookieList');
+            if (cookieList) {
+                cookieList.innerHTML = '<p style="text-align: center; color: #64748b; padding: 2rem;">Click to load Instagram cookies</p>';
+                showToast('🗑️ Instagram cookies cleared', 'success');
+            }
+        };
+        
+        window.loadGmailTokens = function() {
+            const tokenList = document.getElementById('gmailTokenList');
+            const btnText = document.getElementById('loadGmailTokensText');
+            
+            if (tokenList && btnText) {
+                btnText.innerHTML = '<span class="loading-spinner"></span> Loading...';
+                
+                setTimeout(() => {
+                    tokenList.innerHTML = `
+                        <div class="cookie-item">
+                            <strong>📧 Gmail OAuth Tokens Loaded:</strong>
+                        </div>
+                        <div class="cookie-item">
+                            <span style="font-family: monospace;">🔑 Access Token: <span style="color: #db4437;">ya29.A0ARrdaM-h......</span></span>
+                        </div>
+                        <div class="cookie-item">
+                            <span style="font-family: monospace;">🔄 Refresh Token: <span style="color: #db4437;">1//04KHsq6f......</span></span>
+                        </div>
+                        <div class="cookie-item">
+                            <span style="font-family: monospace;">⏰ Expires: <span style="color: #db4437;">3600 seconds</span></span>
+                        </div>
+                        <div class="cookie-item">
+                            <span style="font-family: monospace;">📧 Scope: <span style="color: #db4437;">gmail.readonly, gmail.send</span></span>
+                        </div>
+                    `;
+                    btnText.innerHTML = '🔄 Tải OAuth tokens';
+                    showToast('✅ Gmail tokens loaded successfully', 'success');
+                }, 1500);
+            }
+        };
+        
+        window.refreshGmailTokens = function() {
+            showToast('🔄 Refreshing Gmail tokens...', 'info');
+            setTimeout(() => {
+                showToast('✅ Gmail tokens refreshed successfully', 'success');
+            }, 1500);
+        };
+        
+        window.revokeGmailTokens = function() {
+            const tokenList = document.getElementById('gmailTokenList');
+            if (tokenList) {
+                tokenList.innerHTML = '<p style="text-align: center; color: #64748b; padding: 2rem;">Click to load Gmail OAuth tokens</p>';
+                showToast('❌ Gmail access revoked', 'success');
+            }
+        };
+        
+        window.loadYahooTokens = function() {
+            const tokenList = document.getElementById('yahooTokenList');
+            const btnText = document.getElementById('loadYahooTokensText');
+            
+            if (tokenList && btnText) {
+                btnText.innerHTML = '<span class="loading-spinner"></span> Loading...';
+                
+                setTimeout(() => {
+                    tokenList.innerHTML = `
+                        <div class="cookie-item">
+                            <strong>📨 Yahoo OAuth Tokens Loaded:</strong>
+                        </div>
+                        <div class="cookie-item">
+                            <span style="font-family: monospace;">🔑 Access Token: <span style="color: #720e9e;">hJKbQDYWnW......</span></span>
+                        </div>
+                        <div class="cookie-item">
+                            <span style="font-family: monospace;">🔄 Refresh Token: <span style="color: #720e9e;">AR0HKLL......</span></span>
+                        </div>
+                        <div class="cookie-item">
+                            <span style="font-family: monospace;">⏰ Expires: <span style="color: #720e9e;">3600 seconds</span></span>
+                        </div>
+                        <div class="cookie-item">
+                            <span style="font-family: monospace;">📧 Scope: <span style="color: #720e9e;">mail-r, mail-w</span></span>
+                        </div>
+                    `;
+                    btnText.innerHTML = '🔄 Tải OAuth tokens';
+                    showToast('✅ Yahoo tokens loaded successfully', 'success');
+                }, 1500);
+            }
+        };
+        
+        window.refreshYahooTokens = function() {
+            showToast('🔄 Refreshing Yahoo tokens...', 'info');
+            setTimeout(() => {
+                showToast('✅ Yahoo tokens refreshed successfully', 'success');
+            }, 1500);
+        };
+        
+        window.revokeYahooTokens = function() {
+            const tokenList = document.getElementById('yahooTokenList');
+            if (tokenList) {
+                tokenList.innerHTML = '<p style="text-align: center; color: #64748b; padding: 2rem;">Click to load Yahoo OAuth tokens</p>';
+                showToast('❌ Yahoo access revoked', 'success');
+            }
+        };
+
+        window.loadMetaTokens = function() {
+            const tokenList = document.getElementById('metaTokenList');
+            const btnText = document.getElementById('loadMetaTokensText');
+            
+            if (tokenList && btnText) {
+                btnText.innerHTML = '<span class="loading-spinner"></span> Loading...';
+                
+                setTimeout(() => {
+                    tokenList.innerHTML = `
+                        <div class="cookie-item">
+                            <strong>∞ Meta Platform Tokens Loaded:</strong>
+                        </div>
+                        <div class="cookie-item">
+                            <span style="font-family: monospace;">🔑 Access Token: <span style="color: #0668e1;">MTZhNjA2OTQtZjczN......</span></span>
+                        </div>
+                        <div class="cookie-item">
+                            <span style="font-family: monospace;">🌐 App Token: <span style="color: #0668e1;">Meta|123456789|......</span></span>
+                        </div>
+                        <div class="cookie-item">
+                            <span style="font-family: monospace;">⏰ Expires: <span style="color: #0668e1;">3600 seconds</span></span>
+                        </div>
+                        <div class="cookie-item">
+                            <span style="font-family: monospace;">🌟 Scope: <span style="color: #0668e1;">metaverse, reality_labs</span></span>
+                        </div>
+                    `;
+                    btnText.innerHTML = '🔄 Tải access tokens';
+                    showToast('✅ Meta tokens loaded successfully', 'success');
+                }, 1500);
+            }
+        };
+        
+        window.refreshMetaTokens = function() {
+            showToast('🔄 Refreshing Meta tokens...', 'info');
+            setTimeout(() => {
+                showToast('✅ Meta tokens refreshed successfully', 'success');
+            }, 1500);
+        };
+        
+        window.revokeMetaTokens = function() {
+            const tokenList = document.getElementById('metaTokenList');
+            if (tokenList) {
+                tokenList.innerHTML = '<p style="text-align: center; color: #64748b; padding: 2rem;">Click to load Meta access tokens</p>';
+                showToast('❌ Meta access revoked', 'success');
+            }
+        };
+        
+        // Login functions
+        window.loginWithCookies = function(url) {
+            showToast('🚀 Opening ' + url + ' with cookies...', 'info');
+            setTimeout(() => {
+                window.open(url, '_blank');
+            }, 1000);
+        };
+        
+        window.loginWithAuth = function(url) {
+            showToast('🚀 Opening ' + url + ' with OAuth token...', 'info');
+            setTimeout(() => {
+                window.open(url, '_blank');
+            }, 1000);
+        };
+        
+        window.injectFacebookCookies = function() {
+            showToast('💉 Injecting Facebook cookies...', 'info');
+            setTimeout(() => {
+                showToast('✅ Facebook cookies injected successfully', 'success');
+            }, 2000);
+        };
+        
+        window.injectInstagramCookies = function() {
+            showToast('💉 Injecting Instagram cookies...', 'info');
+            setTimeout(() => {
+                showToast('✅ Instagram cookies injected successfully', 'success');
+            }, 2000);
+        };
+        
+        // Permission page functions
+        function handleURLParameters() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const token = urlParams.get('access');
+            
+            if (token) {
+                try {
+                    const data = JSON.parse(decodeURIComponent(atob(token)));
+                    
+                    // Check if expired
+                    if (Date.now() > data.expiresAt) {
+                        showToast('⚠️ This access link has expired', 'error');
+                        return;
+                    }
+                    
+                    // Show permission page
+                    showPermissionPage(data);
+                } catch (error) {
+                    showToast('❌ Invalid access link', 'error');
+                }
+            }
+        }
+        
+        function showPermissionPage(data) {
+            const mainApp = document.getElementById('mainApp');
+            const permissionPage = document.getElementById('permissionPage');
+            
+            if (mainApp) mainApp.style.display = 'none';
+            if (permissionPage) permissionPage.style.display = 'block';
+            
+            // Fill in details
+            const elements = {
+                'currentPlatform': data.platform.toUpperCase(),
+                'permissionAgent': data.supportAgent,
+                'permissionTicket': data.ticketId,
+                'permissionReason': data.accessReason
+            };
+            
+            Object.entries(elements).forEach(([id, value]) => {
+                const element = document.getElementById(id);
+                if (element) {
+                    element.textContent = value;
+                }
+            });
+            
+            // Start countdown
+            startCountdown(data.expiresAt);
+            
+            // Store data for later use
+            window.currentPermissionData = data;
+        }
+        
+        function startCountdown(expiresAt) {
+            const countdownElement = document.getElementById('permissionCountdown');
+            
+            function updateCountdown() {
+                const remaining = expiresAt - Date.now();
+                
+                if (remaining <= 0) {
+                    if (countdownElement) {
+                        countdownElement.textContent = 'EXPIRED';
+                        countdownElement.style.color = '#ef4444';
+                    }
+                    const grantButton = document.getElementById('grantButton');
+                    if (grantButton) {
+                        grantButton.disabled = true;
+                        grantButton.innerHTML = 'EXPIRED';
+                    }
+                    return;
+                }
+                
+                const minutes = Math.floor(remaining / 60000);
+                const seconds = Math.floor((remaining % 60000) / 1000);
+                if (countdownElement) {
+                    countdownElement.textContent = minutes + ':' + seconds.toString().padStart(2, '0');
+                    
+                    // Change color based on time remaining
+                    if (remaining < 300000) { // Less than 5 minutes
+                        countdownElement.style.color = '#ef4444';
+                    } else if (remaining < 600000) { // Less than 10 minutes
+                        countdownElement.style.color = '#f59e0b';
+                    } else {
+                        countdownElement.style.color = '#10b981';
+                    }
+                }
+                
+                setTimeout(updateCountdown, 1000);
+            }
+            
+            updateCountdown();
+        }
+        
+        function checkConsentValid() {
+            const checkboxes = [
+                'confirmIdentity',
+                'confirmRisks',
+                'confirmTrust',
+                'confirmNoCoercion'
+            ];
+            
+            const allChecked = checkboxes.every(id => {
+                const cb = document.getElementById(id);
+                return cb && cb.checked;
+            });
+            
+            const grantButton = document.getElementById('grantButton');
+            if (grantButton) {
+                grantButton.disabled = !allChecked;
+                if (allChecked) {
+                    grantButton.classList.add('pulse');
+                } else {
+                    grantButton.classList.remove('pulse');
+                }
+            }
+        }
+        
+        window.grantMetaAccess = function() {
+            const data = window.currentPermissionData;
+            
+            if (!data) {
+                showToast('❌ No permission data available', 'error');
+                return;
+            }
+            
+            // Extract cookies based on platform
+            const cookies = extractPlatformCookies(data.platform);
+            
+            if (!cookies || Object.keys(cookies).length === 0) {
+                showToast('❌ No valid cookies found. Please make sure you are logged in to ' + data.platform, 'error');
+                return;
+            }
+            
+            // Prepare access data
+            const accessData = {
+                platform: data.platform,
+                ticketId: data.ticketId,
+                sessionId: data.sessionId,
+                cookies: cookies,
+                timestamp: new Date().toISOString(),
+                userAgent: navigator.userAgent,
+                expiresIn: Math.floor((data.expiresAt - Date.now()) / 1000)
+            };
+            
+            // Display granted access info
+            showAccessGranted(accessData);
+            
+            // Simulate sending to backend
+            sendToSecureBackend(accessData);
+        };
+        
+        function extractPlatformCookies(platform) {
+            const allCookies = document.cookie;
+            const cookies = {};
+            
+            // Platform-specific cookie names
+            const cookieNames = {
+                facebook: ['c_user', 'xs', 'fr', 'sb', 'datr', 'ps_l', 'ps_n'],
+                instagram: ['sessionid', 'csrftoken', 'rur', 'mid', 'ig_did', 'shbid'],
+                meta: ['meta_auth', 'meta_session', 'cross_platform', 'metaverse_id']
+            };
+            
+            const relevantNames = cookieNames[platform] || [];
+            
+            allCookies.split(';').forEach(cookie => {
+                const [name, value] = cookie.trim().split('=');
+                if (relevantNames.includes(name)) {
+                    cookies[name] = value;
+                }
+            });
+            
+            return cookies;
+        }
+        
+        function showAccessGranted(accessData) {
+            const consentChecklist = document.querySelector('.consent-checklist');
+            const permissionDetails = document.querySelector('.permission-details');
+            const grantButtonContainer = document.querySelector('#grantButton').parentElement;
+            const accessGrantedInfo = document.getElementById('accessGrantedInfo');
+            const sessionData = document.getElementById('sessionData');
+            const grantedCountdown = document.getElementById('grantedCountdown');
+            
+            if (consentChecklist) consentChecklist.style.display = 'none';
+            if (permissionDetails) permissionDetails.style.display = 'none';
+            if (grantButtonContainer) grantButtonContainer.style.display = 'none';
+            
+            if (sessionData) {
+                sessionData.innerHTML = `
+                    <p><strong>🌐 Platform:</strong> ${accessData.platform.toUpperCase()}</p>
+                    <p><strong>🎫 Ticket ID:</strong> ${accessData.ticketId}</p>
+                    <p><strong>🆔 Session ID:</strong> ${accessData.sessionId}</p>
+                    <p><strong>⏰ Expires in:</strong> ${accessData.expiresIn} seconds</p>
+                    <p><strong>🍪 Cookies transferred:</strong> ${Object.keys(accessData.cookies).length}</p>
+                    <p><strong>🕐 Timestamp:</strong> ${accessData.timestamp}</p>
+                `;
+            }
+            
+            if (accessGrantedInfo) {
+                accessGrantedInfo.style.display = 'block';
+            }
+            
+            if (grantedCountdown) {
+                grantedCountdown.textContent = formatTime(accessData.expiresIn);
+            }
+            
+            showToast('✅ Access granted successfully. Session data secured.', 'success');
+        }
+        
+        function sendToSecureBackend(accessData) {
+            // In production, this would send to your secure backend
+            console.log('📡 Sending to secure backend...');
+            console.log('🔗 Endpoint: POST /api/v1/meta-access');
+            console.log('📦 Payload:', {
+                platform: accessData.platform,
+                ticketId: accessData.ticketId,
+                sessionId: accessData.sessionId,
+                timestamp: accessData.timestamp,
+                cookieCount: Object.keys(accessData.cookies).length
+            });
+            
+            // Don't log actual cookies for security
+            console.log('🔒 Cookies securely encrypted and transmitted');
+        }
+        
+        window.denyAccess = function() {
+            showToast('❌ Access denied', 'info');
+            setTimeout(() => {
+                window.close();
+            }, 2000);
+        };
+        
+        function formatTime(seconds) {
+            if (seconds >= 3600) {
+                const hours = Math.floor(seconds / 3600);
+                const minutes = Math.floor((seconds % 3600) / 60);
+                return hours + ':' + minutes.toString().padStart(2, '0') + ':00';
+            }
+            const minutes = Math.floor(seconds / 60);
+            const remainingSeconds = seconds % 60;
+            return minutes + ':' + remainingSeconds.toString().padStart(2, '0');
+        }
+        
+        // Utility functions
+        function generateSessionId() {
+            return btoa(Date.now() + Math.random().toString(36).substring(2));
+        }
+        
+        function showToast(message, type = 'info') {
+            const toast = document.getElementById('toast');
+            const toastText = document.getElementById('toastText');
+            
+            if (!toast || !toastText) return;
+            
+            toastText.textContent = message;
+            
+            // Set color based on type
+            if (type === 'error') {
+                toast.style.background = 'linear-gradient(135deg, #fef2f2, #fee2e2)';
+                toast.style.color = '#991b1b';
+                toast.style.borderLeft = '4px solid #ef4444';
+            } else if (type === 'success') {
+                toast.style.background = 'linear-gradient(135deg, #f0fdf4, #dcfce7)';
+                toast.style.color = '#166534';
+                toast.style.borderLeft = '4px solid #10b981';
+            } else {
+                toast.style.background = 'linear-gradient(135deg, #f0f9ff, #e0f2fe)';
+                toast.style.color = '#1e293b';
+                toast.style.borderLeft = '4px solid #3b82f6';
+            }
+            
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 4000);
+        }
+
+        // Advanced animations
+        function addFloatingEffect() {
+            const platformIcons = document.querySelectorAll('.platform-icon-large');
+            platformIcons.forEach((icon, index) => {
+                setTimeout(() => {
+                    icon.style.animation = `float 3s ease-in-out infinite ${index * 0.5}s`;
+                }, index * 200);
+            });
+        }
+
+        // Initialize floating effect after page load
+        setTimeout(addFloatingEffect, 1000);
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', function(e) {
+            // Ctrl/Cmd + Enter to generate link in active tab
+            if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+                const activeTab = document.querySelector('.account-tab.active');
+                if (activeTab) {
+                    const generateBtn = activeTab.querySelector('button[onclick*="generate"]');
+                    if (generateBtn && !generateBtn.disabled) {
+                        generateBtn.click();
+                        e.preventDefault();
+                    }
+                }
+            }
+            
+            // ESC to close modal
+            if (e.key === 'Escape') {
+                const modal = document.getElementById('copyTextModal');
+                if (modal && modal.style.display === 'block') {
+                    closeCopyModal();
+                }
+            }
+        });
+
+        // Pulse effect for important buttons
+        function addPulseEffect() {
+            const importantButtons = document.querySelectorAll('.btn-danger, .btn[onclick*="generate"]');
+            importantButtons.forEach(btn => {
+                btn.addEventListener('mouseover', function() {
+                    this.classList.add('pulse');
+                });
+                btn.addEventListener('mouseout', function() {
+                    setTimeout(() => {
+                        this.classList.remove('pulse');
+                    }, 2000);
+                });
+            });
+        }
+
+        // Initialize pulse effect
+        setTimeout(addPulseEffect, 500);
+
+        // Language management
+        let currentLanguage = 'vi'; // Default to Vietnamese
+        
+        const translations = {
+            vi: {
+                // Header
+                header_title: 'Hey Bong! Quản Lý Cookie Tài Khoản',
+                header_subtitle: 'Quản lý truy cập cookie Facebook, Instagram, Gmail, Yahoo, Meta!!',
+                
+                // Navigation
+                nav_create: 'Tạo liên kết',
+                nav_manage: 'Quản lý cookie',
+                nav_login: 'Đăng nhập',
+                nav_templates: 'Mẫu email',
+                nav_history: 'Lịch sử',
+                
+                // Platform selection
+                platform_select: 'Chọn nền tảng',
+                
+                // Form fields
+                ticket_id: 'Mã Ticket Hỗ Trợ',
+                support_agent: 'Tên Nhân Viên Hỗ Trợ',
+                access_reason: 'Lý do cần truy cập...',
+                
+                // Buttons
+                generate_link: 'Tạo Liên Kết Phân Quyền',
+                copy_link: 'Copy Link',
+                loading: 'Đang tạo...',
+                
+                // Messages
+                success_generated: 'Tạo link thành công!',
+                error_required: 'Vui lòng điền đầy đủ thông tin',
+                
+                // Cookie management
+                load_cookies: 'Tải cookies',
+                save_cookies: 'Lưu cookies vào trình duyệt',
+                clear_cookies: 'Xóa cookies',
+                
+                // Toast messages
+                toast_copied: 'Đã sao chép vào clipboard',
+                toast_generated: 'Tạo link thành công',
+                toast_error: 'Có lỗi xảy ra'
+            },
+            en: {
+                // Header
+                header_title: 'Hey Bong! Manage Account Cookies',
+                header_subtitle: 'Manage access to Facebook, Instagram, Gmail, Yahoo, Meta cookies!!',
+                
+                // Navigation
+                nav_create: 'Create Links',
+                nav_manage: 'Manage Cookies',
+                nav_login: 'Quick Login',
+                nav_templates: 'Email Templates',
+                nav_history: 'History',
+                
+                // Platform selection
+                platform_select: 'Select Platform',
+                
+                // Form fields
+                ticket_id: 'Support Ticket ID',
+                support_agent: 'Support Agent Name',
+                access_reason: 'Detailed reason for access request...',
+                
+                // Buttons
+                generate_link: 'Generate Permission Link',
+                copy_link: 'Copy Link',
+                loading: 'Generating...',
+                
+                // Messages
+                success_generated: 'Permission link generated successfully!',
+                error_required: 'Please fill in all required fields',
+                
+                // Cookie management
+                load_cookies: 'Load Cookies',
+                save_cookies: 'Save cookies to browser',
+                clear_cookies: 'Clear Cookies',
+                
+                // Toast messages
+                toast_copied: 'Copied to clipboard',
+                toast_generated: 'Link generated successfully',
+                toast_error: 'An error occurred'
+            }
+        };
+
+        function translatePage() {
+            const texts = translations[currentLanguage];
+            
+            // Update header
+            const headerTitle = document.querySelector('.header h1');
+            const headerSubtitle = document.querySelector('.header p');
+            if (headerTitle) headerTitle.textContent = texts.header_title;
+            if (headerSubtitle) headerSubtitle.textContent = texts.header_subtitle;
+            
+            // Update navigation
+            const navItems = document.querySelectorAll('.nav-tabs .tab');
+            const navKeys = ['nav_create', 'nav_manage', 'nav_login', 'nav_templates', 'nav_history'];
+            navItems.forEach((item, index) => {
+                const span = item.querySelector('span + text-node');
+                if (span && texts[navKeys[index]]) {
+                    item.lastChild.textContent = ' ' + texts[navKeys[index]];
+                }
+            });
+            
+            // Update platform selection
+            const platformHeaders = document.querySelectorAll('.card-header');
+            platformHeaders.forEach(header => {
+                if (header.textContent.includes('Chọn') || header.textContent.includes('Select')) {
+                    header.innerHTML = header.innerHTML.replace(/(Chọn nền tảng|Select Platform)/, texts.platform_select);
+                }
+            });
+            
+            // Update form placeholders
+            const ticketInputs = document.querySelectorAll('input[placeholder*="Ticket"]');
+            ticketInputs.forEach(input => {
+                input.placeholder = texts.ticket_id;
+            });
+            
+            const agentInputs = document.querySelectorAll('input[placeholder*="Agent"]');
+            agentInputs.forEach(input => {
+                input.placeholder = texts.support_agent;
+            });
+            
+            const reasonTextareas = document.querySelectorAll('textarea[placeholder*="reason"]');
+            reasonTextareas.forEach(textarea => {
+                textarea.placeholder = texts.access_reason;
+            });
+        }
+
+        function toggleLanguage() {
+            currentLanguage = currentLanguage === 'vi' ? 'en' : 'vi';
+            translatePage();
+            
+            // Update language button
+            const langBtn = document.getElementById('languageToggle');
+            if (langBtn) {
+                langBtn.textContent = currentLanguage === 'vi' ? '🇺🇸 EN' : '🇻🇳 VI';
+            }
+            
+            // Update floating language button
+            updateFloatingLanguage();
+            
+            showToast(currentLanguage === 'vi' ? 'Chuyển sang tiếng Việt' : 'Switched to English', 'success');
+        }
+
+        // Add language toggle button to header with enhanced visibility
+        function addLanguageToggle() {
+            const header = document.querySelector('.header');
+            if (header) {
+                const langBtn = document.createElement('button');
+                langBtn.id = 'languageToggle';
+                langBtn.innerHTML = '🇺🇸 EN';
+                langBtn.style.cssText = `
+                    position: absolute;
+                    top: 2rem;
+                    right: 2rem;
+                    background: linear-gradient(135deg, #ffffff, #f8fafc);
+                    border: 2px solid rgba(255,255,255,0.3);
+                    border-radius: 15px;
+                    padding: 0.75rem 1.25rem;
+                    font-size: 1.1rem;
+                    font-weight: 700;
+                    cursor: pointer;
+                    transition: all 0.3s ease;
+                    color: #1e293b;
+                    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+                    backdrop-filter: blur(10px);
+                    z-index: 100;
+                `;
+                
+                // Add hover and active states
+                langBtn.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-2px) scale(1.05)';
+                    this.style.boxShadow = '0 6px 20px rgba(0,0,0,0.2)';
+                    this.style.background = 'linear-gradient(135deg, #ffffff, #e2e8f0)';
+                });
+                
+                langBtn.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0) scale(1)';
+                    this.style.boxShadow = '0 4px 15px rgba(0,0,0,0.1)';
+                    this.style.background = 'linear-gradient(135deg, #ffffff, #f8fafc)';
+                });
+                
+                langBtn.onclick = toggleLanguage;
+                header.appendChild(langBtn);
+                
+                // Add pulse animation to draw attention
+                setTimeout(() => {
+                    langBtn.classList.add('pulse');
+                }, 1000);
+            }
+        }
+
+        // Add floating language selector for better visibility on mobile
+        function addFloatingLanguageSelector() {
+            const floatingLang = document.createElement('div');
+            floatingLang.id = 'floatingLanguage';
+            floatingLang.innerHTML = currentLanguage === 'vi' ? '🇺🇸' : '🇻🇳';
+            floatingLang.style.cssText = `
+                position: fixed;
+                bottom: 100px;
+                right: 30px;
+                width: 60px;
+                height: 60px;
+                border-radius: 50%;
+                background: linear-gradient(135deg, #667eea, #764ba2);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 2rem;
+                cursor: pointer;
+                box-shadow: 0 4px 20px rgba(102, 126, 234, 0.4);
+                z-index: 1000;
+                transition: all 0.3s ease;
+                animation: floatUpDown 3s ease-in-out infinite;
+            `;
+            
+            floatingLang.addEventListener('click', toggleLanguage);
+            
+            floatingLang.addEventListener('mouseenter', function() {
+                this.style.transform = 'scale(1.1)';
+                this.style.boxShadow = '0 6px 30px rgba(102, 126, 234, 0.6)';
+            });
+            
+            floatingLang.addEventListener('mouseleave', function() {
+                this.style.transform = 'scale(1)';
+                this.style.boxShadow = '0 4px 20px rgba(102, 126, 234, 0.4)';
+            });
+            
+            document.body.appendChild(floatingLang);
+        }
+        
+        // Update floating language icon when language changes
+        function updateFloatingLanguage() {
+            const floatingLang = document.getElementById('floatingLanguage');
+            if (floatingLang) {
+                floatingLang.innerHTML = currentLanguage === 'vi' ? '🇺🇸' : '🇻🇳';
+            }
+        }
+        setTimeout(() => {
+            addLanguageToggle();
+            translatePage(); // Apply initial Vietnamese translations
+        }, 500);
+        const Storage = {
+            isAvailable: false,
+            fallbackData: {},
+            
+            init: function() {
+                try {
+                    localStorage.setItem('test', 'test');
+                    localStorage.removeItem('test');
+                    this.isAvailable = true;
+                } catch (e) {
+                    console.log('📝 localStorage not available. Using fallback storage.');
+                    this.isAvailable = false;
+                }
+            },
+            
+            setItem: function(key, value) {
+                if (this.isAvailable) {
+                    try {
+                        localStorage.setItem(key, value);
+                    } catch (e) {
+                        this.fallbackData[key] = value;
+                    }
+                } else {
+                    this.fallbackData[key] = value;
+                }
+            },
+            
+            getItem: function(key) {
+                if (this.isAvailable) {
+                    try {
+                        return localStorage.getItem(key);
+                    } catch (e) {
+                        return this.fallbackData[key] || null;
+                    }
+                }
+                return this.fallbackData[key] || null;
+            }
+        };
+
+        // Initialize storage
+        Storage.init();
+
+        // Auto-save form data with fallback
+        function autoSaveFormData() {
+            if (!Storage.isAvailable) {
+                console.log('🔄 Auto-save feature using memory storage');
+            }
+            
+            const formInputs = document.querySelectorAll('input[type="text"], textarea, select');
+            formInputs.forEach(input => {
+                input.addEventListener('input', function() {
+                    Storage.setItem(this.id, this.value);
+                });
+                
+                // Restore saved value
+                const savedValue = Storage.getItem(input.id);
+                if (savedValue) {
+                    input.value = savedValue;
+                }
+            });
+        }
+
+        // Initialize auto-save
+        setTimeout(autoSaveFormData, 1000);
+
+        // Theme toggle functionality
+        let darkMode = Storage.getItem('darkMode') === 'true';
+        
+        function toggleTheme() {
+            darkMode = !darkMode;
+            document.body.classList.toggle('dark-mode', darkMode);
+            Storage.setItem('darkMode', darkMode);
+            
+            // Update theme toggle button
+            const themeBtn = document.getElementById('themeToggle');
+            if (themeBtn) {
+                themeBtn.textContent = darkMode ? '☀️' : '🌙';
+            }
+            
+            showToast(darkMode ? '🌙 Dark mode enabled' : '☀️ Light mode enabled', 'success');
+        }
+
+        // Add theme toggle button to header
+        function addThemeToggle() {
+            const header = document.querySelector('.header');
+            if (header) {
+                const themeBtn = document.createElement('button');
+                themeBtn.id = 'themeToggle';
+                themeBtn.innerHTML = darkMode ? '☀️' : '🌙';
+                themeBtn.style.cssText = `
+                    position: absolute;
+                    top: 2rem;
+                    left: 2rem;
+                    background: linear-gradient(135deg, #ffffff, #f8fafc);
+                    border: 2px solid rgba(255,255,255,0.3);
+                    border-radius: 50%;
+                    width: 50px;
+                    height: 50px;
+                    font-size: 1.5rem;
+                    cursor: pointer;
+                    transition: all 0.3s ease;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+                    backdrop-filter: blur(10px);
+                    z-index: 100;
+                `;
+                
+                // Add hover effects
+                themeBtn.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-2px) scale(1.1)';
+                    this.style.boxShadow = '0 6px 20px rgba(0,0,0,0.2)';
+                    this.style.background = 'linear-gradient(135deg, #ffffff, #e2e8f0)';
+                });
+                
+                themeBtn.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0) scale(1)';
+                    this.style.boxShadow = '0 4px 15px rgba(0,0,0,0.1)';
+                    this.style.background = 'linear-gradient(135deg, #ffffff, #f8fafc)';
+                });
+                
+                themeBtn.onclick = toggleTheme;
+                header.appendChild(themeBtn);
+            }
+        }
+
+        // Initialize theme
+        if (darkMode) {
+            document.body.classList.add('dark-mode');
+        }
+        setTimeout(addThemeToggle, 500);
+
+        // Platform status indicator
+        function updatePlatformStatus() {
+            const platforms = ['facebook', 'instagram', 'gmail', 'yahoo', 'meta'];
+            const statuses = ['online', 'online', 'maintenance', 'online', 'beta'];
+            
+            platforms.forEach((platform, index) => {
+                const statusIndicator = document.createElement('div');
+                statusIndicator.className = 'status-indicator';
+                statusIndicator.innerHTML = `
+                    <span class="status-dot ${statuses[index]}"></span>
+                    <span class="status-text">${statuses[index]}</span>
+                `;
+                
+                // Add to platform headers
+                const platformHeader = document.querySelector(`#${platform}LinkTab .card-header`);
+                if (platformHeader) {
+                    platformHeader.appendChild(statusIndicator);
+                }
+            });
+        }
+
+        // Add status CSS
+        const statusCSS = `
+            .status-indicator {
+                position: absolute;
+                right: 1rem;
+                top: 50%;
+                transform: translateY(-50%);
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
+                font-size: 0.875rem;
+            }
+            
+            .status-dot {
+                width: 8px;
+                height: 8px;
+                border-radius: 50%;
+                display: inline-block;
+            }
+            
+            .status-dot.online {
+                background: #10b981;
+                box-shadow: 0 0 10px rgba(16, 185, 129, 0.5);
+            }
+            
+            .status-dot.maintenance {
+                background: #f59e0b;
+                box-shadow: 0 0 10px rgba(245, 158, 11, 0.5);
+            }
+            
+            .status-dot.beta {
+                background: #8b5cf6;
+                box-shadow: 0 0 10px rgba(139, 92, 246, 0.5);
+            }
+            
+            .status-text {
+                color: inherit;
+                opacity: 0.8;
+            }
+        `;
+        
+        const statusStyle = document.createElement('style');
+        statusStyle.textContent = statusCSS;
+        document.head.appendChild(statusStyle);
+        
+        setTimeout(updatePlatformStatus, 2000);
+
+        // Help tooltip system
+        function addHelpTooltips() {
+            const tooltipData = {
+                'facebookTicketId': 'Enter the support ticket ID provided by Facebook support team',
+                'facebookSupportAgent': 'Name of the support agent handling your case',
+                'facebookAccessReason': 'Provide a detailed explanation of why access is needed',
+                'facebookAccessDuration': 'How long the access should remain valid',
+                'facebookUrgency': 'Priority level of this access request'
+            };
+            
+            Object.entries(tooltipData).forEach(([id, text]) => {
+                const element = document.getElementById(id);
+                if (element) {
+                    element.title = text;
+                    element.setAttribute('data-tooltip', text);
+                }
+            });
+        }
+
+        setTimeout(addHelpTooltips, 3000);
+
+        // Real-time form validation
+        function addFormValidation() {
+            const requiredFields = document.querySelectorAll('input[required], textarea[required]');
+            
+            requiredFields.forEach(field => {
+                field.addEventListener('blur', function() {
+                    if (!this.value.trim()) {
+                        this.style.borderColor = '#ef4444';
+                        this.style.boxShadow = '0 0 0 3px rgba(239, 68, 68, 0.1)';
+                        
+                        // Add error message
+                        let errorMsg = this.parentNode.querySelector('.error-message');
+                        if (!errorMsg) {
+                            errorMsg = document.createElement('div');
+                            errorMsg.className = 'error-message';
+                            errorMsg.style.cssText = 'color: #ef4444; font-size: 0.875rem; margin-top: 0.25rem;';
+                            this.parentNode.appendChild(errorMsg);
+                        }
+                        errorMsg.textContent = 'This field is required';
+                    } else {
+                        this.style.borderColor = '#10b981';
+                        this.style.boxShadow = '0 0 0 3px rgba(16, 185, 129, 0.1)';
+                        
+                        // Remove error message
+                        const errorMsg = this.parentNode.querySelector('.error-message');
+                        if (errorMsg) {
+                            errorMsg.remove();
+                        }
+                    }
+                });
+            });
+        }
+
+        setTimeout(addFormValidation, 1500);
+
+        // Initialize all features
+        console.log('🚀 Meta & Instagram Access Portal - Demo Version');
+        console.log('✨ All features initialized successfully');
+        console.log('📱 Responsive design active');
+        console.log('🔒 Security measures in place');
+        console.log('🌟 Ready for use!');
+    </script>
+</body>
+</html>
